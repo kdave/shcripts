@@ -1,0 +1,30 @@
+#!/bin/sh
+# in a git tree, list files from the last commit (HEAD), offer a selection and
+# open in vim with the diff against HEAD^
+
+diff="$(git show)"
+fn=
+
+if [ $? = 0 ]; then
+			echo $diff
+			fn=
+		fi
+	done
+	echo "FN: $fn"
+	if ! [ -f "$fn" ]; then
+		echo "File not found"
+		exit
+	fi
+else
+	echo "not in git?"
+fi
+
+if [ -z "$fn" ]; then
+	if [ -z "$1" ]; then
+		echo "gimmea file"
+		exit 1
+	fi
+	vi -c ":Gdiff HEAD^" "$@"
+else
+	vi -c ":Gdiff HEAD^" "$fn"
+fi

@@ -1,0 +1,7 @@
+#!/bin/sh
+# 'timestamped cat', prepend a timestamp to each line
+
+start=`date`
+exec awk '{ print strftime("[%Y-%m-%d %H:%M:%S]"), $0 }'
+end=`date`
+echo "START: $start, END: $end"

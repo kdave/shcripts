@@ -1,0 +1,4 @@
+#!/bin/sh
+# open HEAD in tig
+
+tig show ${1:-HEAD}

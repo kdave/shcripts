@@ -1,0 +1,5 @@
+#!/bin/sh
+# run the given make command but open the results in vim
+# (same as saving make output and running vi -q output)
+
+vi -c ":make $@"

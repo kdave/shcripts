@@ -1,0 +1,26 @@
+#!/bin/sh
+# wait until the given host is up and ssh
+# usage: $0 host command
+
+cnt=1
+repeat=1
+
+login=$1
+host=${1#*@}
+shift
+
+_pingwait() {
+	until ping -q -c $cnt -W 1 "$host" >&/dev/null; do
+		sleep 1
+	done
+}
+
+while :; do
+	_pingwait $host
+	ts=`date +%s`
+	ssh -t -X $login "$@"
+	# does not work
+	# [ $ts = `date +%s` ] && sleep 1
+	echo "sleep 1"
+	sleep 1
+done

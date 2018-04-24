@@ -1,0 +1,8 @@
+#!/bin/sh
+# wait until the given host responds to pings
+
+cnt=1
+
+until ping -c $cnt -W 1 "$1"; do
+	sleep 1
+done

@@ -1,0 +1,4 @@
+#!/bin/sh
+# run make in background and save output to MAKE.log
+
+exec make "$@" >& MAKE.log &

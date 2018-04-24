@@ -1,0 +1,11 @@
+#!/bin/sh
+
+time=${1-1}
+
+echo Sleeping $time seconds
+sleep $time
+while true; do
+	# beep!
+	echo -en '\a'
+	sleep 1
+done

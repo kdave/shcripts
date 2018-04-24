@@ -1,0 +1,19 @@
+#!/bin/sh
+# force push branch to remote 'korg' that's presumably git.kernel.org
+
+function current_branch() {
+	git_dir=$(git rev-parse --git-dir 2> /dev/null) || exit 1
+	ref=$(git symbolic-ref HEAD 2> /dev/null) || exit 1
+	br=${ref#refs/heads/}
+	echo "$br"
+}
+
+if [ $# = 0 ]; then
+	br=$(current_branch)
+	echo "Silently forced push of $br"
+	git push korg +"$br"
+	exit
+fi
+
+echo git push korg "$@"
+git push korg "$@"

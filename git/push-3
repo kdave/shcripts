@@ -1,0 +1,6 @@
+#!/bin/sh
+# push branches to repo, gh and korg remotes
+
+push-repo "$@"
+push-gh "$@"
+push-korg "$@"

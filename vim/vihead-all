@@ -1,0 +1,20 @@
+#!/bin/sh
+# like vihead, but cycle through all files
+
+diff="$(git show)"
+fn=
+
+if [ $? = 0 ]; then
+	echo "More files modified:"
+	for fn in  $(echo "$diff" | lsdiff --strip 1); do
+		echo "FN: $fn"
+		vi -c ":Gdiff HEAD^" "$fn"
+		echo "NEXT? [Y/n]"
+		read -n 1 temp
+		if ! [ "$temp" = y ]; then
+			break
+		fi
+	done
+else
+	echo "not in git?"
+fi

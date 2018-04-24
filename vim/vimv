@@ -1,0 +1,41 @@
+#!/bin/bash
+# - show list of files in current dir
+# - show src and dst name, run vim and let edit
+# - manually update new filenames, original file is prefixed by @
+# - process the edits
+
+tmp=/tmp/vimv-$$
+
+if test $# = 0; then
+	ls -1 | sed -e 's/^\(.*\)$/@\1\n\1/' > "$tmp"
+else
+	ls "@$" | sed -e 's/^\(.*\)$/@\1\n\1/' > "$tmp"
+fi
+
+vim "$tmp"
+
+function re() {
+	[[ "$1" =~ $2 ]]
+}
+
+echo "Will perform these changes:"
+while read fn; do
+	if re "$fn" ^@; then
+		orig=${fn#@}
+		#echo FROM: "$orig"
+
+		read fto
+		case "$fto" in
+		"")
+			echo TO: empty? trimmed file, will not continue, sorry
+			exit
+			;;
+		esac
+		targ="$fto"
+		#echo TO: "$fto"
+
+		if test "$orig" = "$fto"; then continue; fi
+		echo COMMAND: "mv '$orig' '$fto'"
+		mv -- "$orig" "$fto"
+	fi
+done < "$tmp"

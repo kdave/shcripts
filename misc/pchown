@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+# preserve permissions on chown on a file
+
+$uid=shift(@ARGV);
+$gid=shift(@ARGV);
+while(@ARGV){
+	$file=shift(@ARGV);
+	$mode=(stat($file))[2] & 07777;
+	#print "chown $uid $gid $file\n";
+	#printf "chmod %05o $file\n",$mode;
+	chown $uid, $gid, $file;
+	chmod $mode, $file;
+}

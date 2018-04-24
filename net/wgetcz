@@ -1,0 +1,6 @@
+#!/bin/sh
+# set preferred language to CZ and wget
+
+wget	--header='Accept-Charset: iso-8859-2'	\
+	--header='Accept-Language: cz'		\
+	--header='Accept-Language: cs' "$@"

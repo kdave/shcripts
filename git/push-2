@@ -1,0 +1,5 @@
+#!/bin/sh
+# push branches to repo and gh remotes
+
+push-repo "$@"
+push-gh "$@"
