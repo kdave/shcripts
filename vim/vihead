@@ -6,9 +6,8 @@ diff="$(git show)"
 fn=
 
 if [ $? = 0 ]; then
-			echo $diff
-			fn=
-		fi
+	select fn in $(git show HEAD | lsdiff --strip 1); do
+		break;
 	done
 	echo "FN: $fn"
 	if ! [ -f "$fn" ]; then

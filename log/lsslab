@@ -1,0 +1,11 @@
+#!/bin/sh
+# print slab infor with aligned columns, also can filter by slab name
+
+hdr=$(sudo cat /proc/slabinfo | head -n 2 | sed -e 's/ name/name/')
+
+grep=grep
+
+if [ -z "$1" ]; then
+	grep=cat
+fi
+{ echo "$hdr"; sudo cat /proc/slabinfo | tail -n +3 | $grep "$@"; } | column -t | less

@@ -1,0 +1,13 @@
+#!/bin/sh
+# quick scan of dmesg or given log file for fstests and warning/bug messages
+
+function filter() {
+	egrep -a '(run fstests|WARNING:|BUG:|RIP:|UBSAN:)'
+}
+
+if [ -z "$1" ]; then
+	echo "=== read from dmesg"
+	dmesg | filter
+else
+	cat "$1" | filter
+fi

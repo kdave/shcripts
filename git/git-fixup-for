@@ -1,0 +1,15 @@
+#!/bin/sh -x
+# usage: $0 <commit> [commit options]
+#
+# take local changes and merge them to given commit using the fixup and
+# interactive rebase
+
+c="$1"
+shift
+
+if [ -z "$c" ]; then
+	echo "gimmea commit"
+	exit 1
+fi
+
+git commit --fixup "$c" "$@" && git rebase -i --autosquash "$c"^

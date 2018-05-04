@@ -1,0 +1,28 @@
+#!/bin/sh
+# ...
+
+function ms2s() {
+	echo -n "$(($1/100)).`printf %02d $(($1%100))`"
+}
+
+# ms
+delay=5
+incr=5
+last=
+for c in `seq 10`; do
+	for i in `seq 10 | shuf`; do
+		echo -en '\r                            '
+		echo -en "\r$i"
+		sleep $(ms2s $delay)
+	done
+done
+for i in `seq 10 | shuf`; do
+	echo -en '\r                            '
+	echo -en "\r$i"
+	sleep $(ms2s $delay)
+	delay=$(($delay+$incr))
+	last=$i
+done
+
+echo
+echo "Winner is: $last"

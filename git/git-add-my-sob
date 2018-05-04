@@ -1,0 +1,5 @@
+#!/bin/sh
+# update top commit and add the Signed-off-by line
+# note: any diff may be lost
+
+git commit --amend --no-edit -s

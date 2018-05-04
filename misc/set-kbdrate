@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+# keyboard delay and rate for maximum productivity
+
+#xset r rate 190 60
+xset r rate 170 70
