@@ -1,0 +1,7 @@
+#!/bin/sh
+# wait until the given pid exits
+
+pid=${1:-0}
+while ps -p $pid; do
+	sleep 1
+done

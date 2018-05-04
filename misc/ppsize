@@ -1,0 +1,61 @@
+#!/usr/bin/python
+"""
+Pretty print the size of a file
+"""
+
+from __future__ import division
+import locale
+import sys
+import os
+import stat
+
+def usage():
+    print('') 
+    print('    Usage: ' + sys.argv[0] + ' file\n')
+    print('    pretty prints the size of the remote file.')
+    print('') 
+
+def pretty_print(num_bytes):
+    if num_bytes is None:
+        print('File size unavailable.')
+        return
+    KiB = 1024
+    MiB = KiB * KiB
+    GiB = KiB * MiB
+    TiB = KiB * GiB
+    PiB = KiB * TiB
+    EiB = KiB * PiB
+    ZiB = KiB * EiB
+    YiB = KiB * ZiB
+    locale.setlocale(locale.LC_ALL, '')
+    output = locale.format("%d", num_bytes, grouping=True) + ' bytes'
+    if num_bytes > YiB:
+        output += ' (%.3g YiB)' % (num_bytes / YiB)
+    elif num_bytes > ZiB:
+        output += ' (%.3g ZiB)' % (num_bytes / ZiB)
+    elif num_bytes > EiB:
+        output += ' (%.3g EiB)' % (num_bytes / EiB)
+    elif num_bytes > PiB:
+        output += ' (%.3g PiB)' % (num_bytes / PiB)
+    elif num_bytes > TiB:
+        output += ' (%.3g TiB)' % (num_bytes / TiB)
+    elif num_bytes > GiB:
+        output += ' (%.3g GiB)' % (num_bytes / GiB)
+    elif num_bytes > MiB:
+        output += ' (%.3g MiB)' % (num_bytes / MiB)
+    elif num_bytes > KiB:
+        output += ' (%.3g KiB)' % (num_bytes / KiB)
+    print(output)
+
+
+if __name__ == "__main__":
+    if (len(sys.argv) != 2) or (sys.argv[1][0] == '-'):
+        usage()
+        sys.exit(1)
+    else:
+        url = sys.argv[1]
+	if not os.path.exists(url):
+		pretty_print(int(url))
+	else:
+		bytes = os.stat(url).st_size
+		pretty_print(bytes)

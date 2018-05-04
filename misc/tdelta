@@ -1,0 +1,21 @@
+#!/bin/sh
+# usage: $0 end [start]
+#
+# time delta between two timestamps
+
+since=`date -d "$1" +%s`
+if [ -z "$2" ]; then
+	now=`date +%s`
+else
+	now=`date -d "$2" +%s`
+fi
+delta=$(($now-$since))
+s=$(($delta % 60))
+delta=$(($delta / 60))
+m=$(($delta % 60))
+delta=$(($delta / 60))
+h=$(($delta % 24))
+delta=$(($delta / 24))
+days=$(($delta))
+#printf "%02d:%02d:%02d\n" "$h" "$m" "$s"
+printf "%d %02d:%02d:%02d\n" "$days" "$h" "$m" "$s"

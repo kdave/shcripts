@@ -1,0 +1,4 @@
+#!/bin/sh
+# call 'git add' on all files from the currently applied patch by git-am
+
+lsdiff --strip 1 .git/rebase-apply/patch | xargs git add

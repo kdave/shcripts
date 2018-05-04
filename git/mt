@@ -1,0 +1,4 @@
+#!/bin/sh
+# run the preferred git conflict resolution tool
+
+exec git mergetool -t vimdiff

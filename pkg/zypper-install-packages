@@ -1,0 +1,18 @@
+#!/bin/sh
+# install a few testing packages
+
+zypper in --force -l \
+	ffsb \
+	fs_mark \
+	fio \
+	mmtests \
+	blogbench \
+	sysbench \
+	dbench \
+	btrfsprogs \
+	xfstests \
+	xfsprogs \
+	e2fsprogs \
+	dt \
+	blktrace \
+	compilebench

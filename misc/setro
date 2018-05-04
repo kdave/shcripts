@@ -1,0 +1,10 @@
+#!/bin/sh -x
+# set "mostly read-only" mask on all files and directories
+
+FP="u+wX,g+X,o+X,a-r,g-w,o-w"
+DP="u+wx,g+x,o+x,a-r,g-w,o-w"
+while ! [ -z "$1" ];do
+	find "$1" -print -not -type d -exec chmod "$FP" '{}' \;
+	find "$1" -print -type d -exec chmod "$DP" '{}' \;
+	shift
+done

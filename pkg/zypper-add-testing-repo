@@ -1,0 +1,16 @@
+#!/bin/sh
+# add my testing repo and kernel
+
+if zypper lr -u | grep -q "home.*dsterba.*testing.*openSUSE"; then
+	echo testing repo already there
+else
+	zypper ar --refresh "http://download.opensuse.org/repositories/home:/dsterba:/testing/openSUSE_13.1/" dsterba-testing
+	zypper mr -p 80 dsterba-testing
+fi
+
+if zypper lr -u | grep -q "Kernel.*stable.*standard"; then
+	echo kernel repo already there
+else
+	zypper ar --refresh "http://download.opensuse.org/repositories/Kernel:/stable/standard/" kernel-stable
+	zypper mr -p 80 kernel-stable
+fi

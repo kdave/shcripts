@@ -1,0 +1,5 @@
+#!/bin/sh
+# apply any uncommitted changes to HEAD
+
+#EDITOR=/bin/true git commit --amend -a -v
+git commit --amend -a -v --no-edit

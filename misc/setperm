@@ -1,0 +1,10 @@
+#!/bin/sh -x
+# fix write permission on all files and directories
+
+FP="u+rwX,g+rX,o+rX,g-w,o-w"
+DP="u+rwx,g+rx,o+rx,g-w,o-w"
+while ! [ -z "$1" ];do
+	find "$1" -print -type d -exec chmod "$DP" '{}' \;
+	find "$1" -print -not -type d -exec chmod "$FP" '{}' \;
+	shift
+done
