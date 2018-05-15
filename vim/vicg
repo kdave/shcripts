@@ -1,0 +1,38 @@
+#!/bin/sh
+# usage: $0 [struct] <type to search> [<member>]
+
+# open vim with coccigrep search, save temporary output for repeated calls
+
+para=`grep -c ^processor /proc/cpuinfo`
+tmp=/tmp/coccigrep.$RANDOM$$.txt
+memb=
+stru=
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 struct [member] [other args to coccigrep]"
+	exit 1
+fi
+
+# $0 struct mystruct member
+if [ "$1" = 'struct' ]; then
+	stru="struct $2"
+	shift
+	shift
+elif [[ $1 =~ ^struct ]]; then
+	stru="$1"
+	shift
+else
+	stru="struct $1"
+	shift
+fi
+
+if ! [ -z "$1" ]; then
+	memb="-a $1"
+	shift
+fi
+
+echo "Running coccigrep with $para jobs to $tmp"
+echo "RUN: coccigrep -p $para --vim -t $stru $memb $@ *.[ch] > $tmp"
+coccigrep -p $para --vim -t "$stru" $memb "$@" *.[ch] > "$tmp"
+echo "Using $tmp for results, run   vim -q $tmp"
+vim -q "$tmp"

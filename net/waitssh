@@ -21,6 +21,6 @@ while :; do
 	ssh -t -X $login "$@"
 	# does not work
 	# [ $ts = `date +%s` ] && sleep 1
-	echo "sleep 1"
+	#echo "sleep 1"
 	sleep 1
 done

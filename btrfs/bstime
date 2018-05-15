@@ -1,0 +1,10 @@
+#!/bin/sh
+# create btrfs snapshot with a timestamp in name
+
+if ! [ -d "$1" ]; then
+	echo "$1 does not exist"
+	exit 1
+fi
+
+ts=$(date +%F-%T)
+sudo btrfs subvol snapshot "$1" "$1"-$ts || exit 1
