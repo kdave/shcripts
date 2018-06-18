@@ -11,7 +11,7 @@ if [ $? = 0 ]; then
 		vi -c ":Gdiff HEAD^" "$fn"
 		echo "NEXT? [Y/n]"
 		read -n 1 temp
-		if ! [ "$temp" = y ]; then
+		if [ "$temp" = n ]; then
 			break
 		fi
 	done

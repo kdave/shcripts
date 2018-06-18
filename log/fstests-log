@@ -2,7 +2,7 @@
 # quick scan of dmesg or given log file for fstests and warning/bug messages
 
 function filter() {
-	egrep -a '(run fstests|WARNING:|BUG:|RIP:|UBSAN:|^\s+[+-])'
+	egrep -a '(run fstests|WARNING:|BUG:|RIP:|UBSAN:|^\s+[+-]|CPU:.*Comm:)'
 }
 
 if [ -z "$1" ]; then

@@ -10,7 +10,7 @@ function current_branch() {
 
 if [ $# = 0 ]; then
 	br=$(current_branch)
-	echo "GH: Silently forced push of $br"
+	echo "GL: Silently forced push of $br"
 	git push gl +"$br"
 	exit
 fi

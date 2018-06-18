@@ -1,6 +1,8 @@
 #!/bin/sh
 # in a git tree, list files from the last commit (HEAD), offer a selection and
-# open in vim with the diff against HEAD^
+# open in vim with the diff against HEAD^ (ie. the last changes to the file)
+#
+# requires: fugitive-vim plugin
 
 diff="$(git show)"
 fn=
@@ -9,6 +11,9 @@ if [ $? = 0 ]; then
 	select fn in $(git show HEAD | lsdiff --strip 1); do
 		break;
 	done
+	# can be run anywhere in the directory tree, diff prints path relative
+	# to the toplevel
+	fn=$(realpath -e --relative-to=`pwd` ./`git rev-parse --show-cdup`/"$fn")
 	echo "FN: $fn"
 	if ! [ -f "$fn" ]; then
 		echo "File not found"
