@@ -1,5 +1,5 @@
 #!/bin/sh
-# push branches to repo and gh remotes
+# push branches to github and giltab remotes
 
-push-repo "$@"
 push-gh "$@"
+push-gl "$@"

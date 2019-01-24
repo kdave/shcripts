@@ -1,6 +1,6 @@
 #!/bin/sh
-# push branches to repo, gh and korg remotes
+# push branches to github, gitlab and k.org remotes
 
-push-repo "$@"
 push-gh "$@"
+push-gl "$@"
 push-korg "$@"
