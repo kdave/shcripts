@@ -8,6 +8,9 @@ if [ $? = 0 ]; then
 	echo "More files modified:"
 	for fn in  $(echo "$diff" | lsdiff --strip 1); do
 		echo "FN: $fn"
+		# can be run anywhere in the directory tree, diff prints path
+		# relative to the toplevel
+		fn=$(realpath -e --relative-to=`pwd` ./`git rev-parse --show-cdup`/"$fn")
 		vi -c ":Gdiff HEAD^" "$fn"
 		echo "NEXT? [Y/n]"
 		read -n 1 temp

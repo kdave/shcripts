@@ -2,12 +2,12 @@
 # chop the messages since last boot from a continuous serial console log,
 # identified by the timestamp change
 
-my $fn=$ARGV[0];
+my $fn=$ARGV[0] // 'serial.log';
 open(FH, "<$fn") or die $!;
 my $fsize=(stat(FH))[7];
 
 # likely to find the last log in 5 MiB
-my $laststart=$fsize - 5 * 1024 * 1024;
+my $laststart=$fsize - 10 * 1024 * 1024;
 $laststart=0 if ($laststart < 0);
 
 seek(FH, $laststart, SEEK_SET) or die $!;

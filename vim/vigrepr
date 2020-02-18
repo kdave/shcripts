@@ -1,0 +1,12 @@
+#!/bin/sh
+# vim grep all *.[ch] files current directory and open
+
+[ -z "$1" ] && { echo "usage: $0 regex"; exit 1; }
+
+if [ -z "$2" ]; then
+	view -c ':grep "'"$@"'" *.[ch]'
+else
+	shift
+	regex="$1"
+	view -c ":grep \"$regex\" $*"
+fi
