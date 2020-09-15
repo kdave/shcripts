@@ -1,0 +1,26 @@
+#!/usr/bin/awk -f
+
+# reduce context of file tests/*/group to 0 lines
+# use with:
+# - get patch
+# - update test number (sed)
+# - $ reduce-context < the.patch > reduced.patch
+# - $ rediff the.patch reduced.patch > final.patch
+# - $ git am --reject final.patch
+#   this will succeed with line offset
+
+BEGIN { found=0; }
+
+/^+++.*tests\/.*\/group/ {
+	found = 1; print; next;
+}
+found == 1 { # @@ line
+	found = 2; print; next;
+}
+found >= 2 && found <= 4 { # 3 lines of context
+	found++; next;
+}
+found == 5 { # the added line
+	found = 6; print; next;
+}
+{	print }
