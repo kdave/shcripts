@@ -1,0 +1,5 @@
+#!/bin/sh
+
+hash=$(pwparser --hash)
+pwclient update -h $hash -s Rejected
+echo pwhash $hash to Rejected

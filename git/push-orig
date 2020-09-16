@@ -15,5 +15,6 @@ if [ $# = 0 ]; then
 	exit
 fi
 
+echo "ORIGIN: push $br"
 echo git push origin "$@"
 git push origin "$@"

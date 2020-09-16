@@ -1,0 +1,4 @@
+#!/bin/sh
+# grep in local git branches
+
+git branch | grep -i "$@"

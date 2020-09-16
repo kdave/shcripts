@@ -1,0 +1,5 @@
+#!/bin/sh
+
+hash=$(pwparser --hash)
+pwclient update -h $hash -s Accepted
+echo pwhash $hash to Accepted

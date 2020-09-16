@@ -1,0 +1,12 @@
+#!/bin/sh
+# For .git/hooks/applypatch-msg
+#
+# You must have the following in .git/config:
+# [am]
+#       messageid = true
+
+. git-sh-setup
+perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://lore.kernel.org/r/$1|g;' "$1"
+test -x "$GIT_DIR/hooks/commit-msg" &&
+        exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
+:

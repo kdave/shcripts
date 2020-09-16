@@ -1,5 +1,6 @@
 #!/bin/sh
-# force push branch to remote 'gh' that's presumably github
+# force push current branch to remote 'gh' that's presumably github,
+# or push the given branch without force
 
 function current_branch() {
 	git_dir=$(git rev-parse --git-dir 2> /dev/null) || exit 1
@@ -10,10 +11,11 @@ function current_branch() {
 
 if [ $# = 0 ]; then
 	br=$(current_branch)
-	echo "GH: Silently forced push of $br"
+	echo "GITHUB: Silently forced push of $br"
 	git push gh +"$br"
 	exit
 fi
 
+echo "GITHUB: push $br"
 echo git push gh "$@"
 git push gh "$@"

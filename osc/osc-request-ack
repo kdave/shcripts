@@ -1,0 +1,9 @@
+#!/bin/sh
+# accept given SR
+
+if [ -z "$1" ]; then
+	echo "ERROR: $0 id"
+	exit 1
+fi
+
+osc request accept "$1" --message="ack"

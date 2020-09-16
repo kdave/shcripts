@@ -1,0 +1,5 @@
+#!/bin/sh
+
+hash=$(pwparser --hash)
+pwclient update -h $hash -s Superseded
+echo pwhash $hash to Superseded

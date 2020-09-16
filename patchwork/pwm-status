@@ -1,0 +1,5 @@
+#!/bin/sh
+
+hash=$(pwparser --hash)
+pwclient info -h $hash
+echo pwhash $hash

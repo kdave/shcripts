@@ -1,0 +1,4 @@
+#!/bin/sh
+pwd=`pwd`
+cmd="$@"
+tmux splitw -v -l 80% "echo PWD: '$pwd' CMD: '$cmd'; $@"

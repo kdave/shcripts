@@ -1,0 +1,3 @@
+#!/bin/sh -x
+# get patch from patchwork URL (patchwork.org/project/1234/mbox/) and apply it
+wget -O- "$1" | git am --reject -

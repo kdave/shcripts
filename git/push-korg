@@ -10,10 +10,11 @@ function current_branch() {
 
 if [ $# = 0 ]; then
 	br=$(current_branch)
-	echo "Silently forced push of $br"
+	echo "KORG: Silently forced push of $br"
 	git push korg +"$br"
 	exit
 fi
 
+echo "KORG: push $br"
 echo git push korg "$@"
 git push korg "$@"

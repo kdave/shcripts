@@ -1,0 +1,3 @@
+#!/bin/sh
+# print nice timestamp
+date '+%Y%m%d-%H%M%S'

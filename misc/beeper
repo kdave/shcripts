@@ -1,4 +1,5 @@
 #!/bin/sh
+# beep! beep! beep!
 
 time=${1-1}
 

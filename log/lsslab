@@ -1,5 +1,5 @@
 #!/bin/sh
-# print slab infor with aligned columns, also can filter by slab name
+# print slab info with aligned columns, also can filter by slab name
 
 hdr=$(sudo cat /proc/slabinfo | head -n 2 | sed -e 's/ name/name/')
 

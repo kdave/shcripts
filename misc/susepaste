@@ -1,0 +1,152 @@
+#!/bin/sh
+
+# pass stdin or file to susepaste.org
+
+# verbose curl
+debug=false
+
+ ##############################################################################
+ #                                                                            #
+ # SUSE Paste script                                                          #
+ #                                                                            #
+ # Copyright (C) 2007-2010 by Michal Hrusecky <Michal@Hrusecky.net>           #
+ #                                                                            #
+ # This program is free software: you can redistribute it and/or modify       #
+ # it under the terms of the GNU General Public License as published by       #
+ # the Free Software Foundation, either version 3 of the License, or          #
+ # (at your option) any later version.                                        #
+ #                                                                            #
+ # This program is distributed in the hope that it will be useful,            #
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of             #
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              #
+ # GNU General Public License for more details.                               #
+ #                                                                            #
+ # You should have received a copy of the GNU General Public License          #
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.      #
+ #                                                                            #
+ ##############################################################################
+
+# By default paste code from stdin
+
+INPUT="<-"
+TYPE="code"
+API_KEY=""
+
+NICK=opensuse
+EXPIRE=7d
+
+# Read configuration file
+
+[ -r ~/.susepaste ] && . ~/.susepaste
+
+# Process the command line parameters
+
+while [ "$2" ]; do
+	case "x$1" in
+	"x-t" )
+		TITLE="$2"
+		shift 2 ;;
+	"x-n" )
+		NICK="$2"
+		shift 2 ;;
+	"x-f" )
+		SYNTAX="$2"
+		if [ "$SYNTAX" = "image" ]; then
+			TYPE="file"
+		else
+			TYPE="code"
+		fi
+		shift 2 ;;
+	"x-e" )
+		EXPIRE="$2"
+		shift 2 ;;
+	"x-k" )
+		KEY="$2"
+		shift 2 ;;
+        "x-s" )
+                SCHEMA="$2"
+                shift 2 ;;
+	* )
+		echo "openSUSE Paste script"
+		echo ""
+		echo " usage:"
+		echo "   susepaste [-f format] [-n nick] [-t title] [-e expire] [-s schema] [file]"
+		echo ""
+		exit 0 ;;
+	esac
+done
+
+# Key handling
+
+if [ "$KEY" ]; then
+	if [ "`expr substr "$KEY" 1 4`" = "KEY:" ]; then
+		KEY="`echo "$KEY" | sed 's|^KEY:||'`"
+	fi
+	API_KEY=" -F api_key=$KEY "
+fi
+
+# Do we want to use stdin or paste content of the file?
+
+if [ "$1" ]; then
+	if [ \! -r "$1" ]; then
+		echo "Can't read $1"
+		exit 2
+	fi
+	INPUT="<$1"
+	[ "$TITLE" ] || TITLE="`basename $1`"
+	TMP=""
+	for i in /usr/share/susepaste/lang-mappings.sed \
+		~/.susepaste_lang_mappings.sed; do
+		[ -r "$i" ] && TMP="`LANG=C file -iLb "$1" | sed -nf "$i"`"
+	done
+	if [ "$TMP" ] && [ -z "$SYNTAX" ]; then
+		SYNTAX="$TMP"
+	fi
+	if [ "$SYNTAX" = "image" ]; then
+		INPUT="@$1"
+		TYPE="file"
+	else
+		TYPE="code"
+	fi
+fi
+
+# Defaults if nothing was specified
+
+# Nickname displayed as an author
+[ "$NICK"     ] || NICK="`whoami`"
+# Title of your paste
+[ "$TITLE"    ] || TITLE="`whoami`'s paste"
+# Syntax highlighting (for possible values check the documentation)
+[ "$SYNTAX"   ] || SYNTAX="text"
+# Time to live for your paste in minutes (for possible values check the documentation)
+[ "$EXPIRE"   ] || EXPIRE=60
+# Should SSL be used as schema
+[ "$SCHEMA"   ] || SCHEMA=https
+
+# Real pasting and getting back the URL of the paste
+
+curl="`
+curl -v -F "$TYPE=$INPUT" -F "title=$TITLE"  -F "expire=$EXPIRE"   \
+        -F "name=$NICK"   -F "submit=submit" -F "lang=$SYNTAX"     \
+	$API_KEY                                                   \
+        ${SCHEMA}://susepaste.org 2>&1`"
+
+URL="`echo \"$curl\" | sed -n 's|<\ [Ll]ocation:\ ||p'`"
+
+$debug && echo "CURL: $curl"
+$debug && echo "URL: $URL"
+
+# Check the results and inform the user
+
+if expr "$URL" : "^${SCHEMA}://susepaste.org/[0-9a-f]\+" > /dev/null; then
+	ID="`echo "$URL" | sed 's|^'"${SCHEMA}"'://susepaste.org/\([0-9a-f]\+\)[^0-9a-f]*|\1|'`"
+	echo "Pasted as:"
+	echo "   ${SCHEMA}://susepaste.org/$ID"
+	echo "   ${SCHEMA}://paste.opensuse.org/$ID"
+	if [ -x /usr/bin/xclip ]; then
+		echo "${SCHEMA}://susepaste.org/$ID" | xclip -selection XA_CLIPBOARD
+		echo "Link is also in your clipboard."
+	fi
+else
+	echo "Paste failed :-("
+fi

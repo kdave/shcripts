@@ -1,0 +1,2 @@
+#!/bin/sh
+exec osc --no-keyring --no-gnome-keyring -A https://api.opensuse.org "$@"

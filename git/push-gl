@@ -1,5 +1,6 @@
 #!/bin/sh
-# force push branch to remote 'gl' that's presumably some gitlab instance
+# force push current branch to remote 'gl' that's presumably gitlab instance,
+# or push the given branch without force
 
 function current_branch() {
 	git_dir=$(git rev-parse --git-dir 2> /dev/null) || exit 1
@@ -10,10 +11,11 @@ function current_branch() {
 
 if [ $# = 0 ]; then
 	br=$(current_branch)
-	echo "GL: Silently forced push of $br"
+	echo "GITLAB: Silently forced push of $br"
 	git push gl +"$br"
 	exit
 fi
 
+echo "GITLAB: push $br"
 echo git push gl "$@"
 git push gl "$@"
