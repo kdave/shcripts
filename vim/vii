@@ -4,4 +4,4 @@
 
 # arch/x86/ia32/sys_ia32.c:438: error: unsupported inline asm: input constraint with a matching output constraint of incompatible type!
 args=( $(echo "$@" | awk 'BEGIN{FS=":"} {print $1 " " $2}') )
-exec $EDITOR "${args[0]}" "+${args[1]}"
+exec ${EDITOR:-vim} "${args[0]}" "+${args[1]}"

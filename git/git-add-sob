@@ -1,0 +1,19 @@
+#!/bin/sh
+# usage: $0 [commit] [who]
+#
+# empty $1 -> HEAD
+# empty $2 -> you
+
+if [ -z "$1" ]; then
+	commit=HEAD
+else
+	commit="$1"
+fi
+
+if [ -z "$2" ]; then
+	rev="Signed-off-by: David Sterba <dsterba@suse.com>"
+else
+	rev="$2"
+fi
+
+git-add-line "$commit" "$rev"

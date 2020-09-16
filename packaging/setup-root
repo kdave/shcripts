@@ -1,0 +1,20 @@
+#!/bin/sh
+# usage: $0 package
+#
+# create minimal root image with the given package installed + dependencies
+
+if [ -z "$1" ]; then
+	echo "ERROR: no package?"
+	exit 1
+fi
+
+pkg="$1"
+root=`pwd`/"root-$pkg"
+
+zypper -n --root "$root" --gpg-auto-import-keys ar --no-gpgcheck --refresh http://download.opensuse.org/tumbleweed/repo/oss tw-oss
+zypper -n --root "$root" --gpg-auto-import-keys ref -f
+#cp system-user-root-20170617-1.8.noarch.rpm "$root"
+#mkdir -p "$root"/var/cache/zypp/packages/tw-oss
+#cp system-user-root-20170617-1.8.noarch.rpm "$root"/var/cache/zypp/packages/tw-oss
+#sudo rpm --root "$root" -ivh ./system-user-root-20170617-1.8.noarch.rpm
+sudo zypper -v -n --root "$root" --gpg-auto-import-keys install --download-in-advance -l -y --no-recommends "$pkg"

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir out
+out=out/${1}.out
+mkdir $out
+export MBOX_NAME=$1
+mutt -F .muttrc-convert -f "$1"

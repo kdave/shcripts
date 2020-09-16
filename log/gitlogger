@@ -1,0 +1,39 @@
+#!/bin/sh
+# run a command periodically, commit each round in git
+#
+# requires: ../gatherdata
+
+function die() {
+	echo "ERROR: $@"
+	exit 1
+}
+function runlogcmd() {
+	$logcmd
+}
+
+delay=10
+logcmd=../gatherdata
+
+stamp=$(date +%Y%m%d-%H%M%S)
+dir="log-$stamp"
+
+echo "* init logging dir"
+mkdir "$dir" || die "cannot make output directory"
+cd "$dir"
+git init || die "git cannot init"
+
+chlog="time $stamp, delay $delay, command \"$logcmd\""
+runlogcmd
+git add *
+git commit -a -m"initial commit; $chlog"
+
+while :;do
+	stamp=$(date +%Y%m%d-%H%M%S)
+	echo "* $stamp: running log command \"$logcmd\""
+	runlogcmd
+	echo -n "* save it to git"
+	chlog="time $stamp, delay $delay, command \"$logcmd\""
+	git commit -a -m"$chlog" >/dev/null
+	echo " and sleep $delay"
+	sleep $delay
+done

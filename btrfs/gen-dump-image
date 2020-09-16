@@ -1,0 +1,30 @@
+#!/bin/sh -x
+# template to generate textual dump of image of filesystem
+
+sz=2g
+rnd=$RANDOM
+img=image-$rnd
+mnt=mnt-$rnd
+sudo=
+[ $UID = 0 ] || sudo=sudo
+
+set -e
+truncate -s$sz $img
+mkfs.btrfs -f -d single -m single $img
+dev=$($sudo losetup --find --show $img)
+
+echo IMAGE: $img
+echo SIZE: $sz
+echo LOOP: $dev
+
+mkdir $mnt
+$sudo mount $dev $mnt
+
+# ==================================
+# YOUR COMMANDS HERE
+# ==================================
+
+$sudo umount $mnt
+rmdir $mnt
+$sudo losetup -d $dev
+btrfs inspect dump-tree $img | gzip > bdt-$rnd.txt.gz

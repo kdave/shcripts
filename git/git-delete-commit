@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# DANGEROUS!
+#
+# git-delete-commit - delete a commit from middle of a branch
+
+CID="$1"
+
+if [ -z "$CID" ]; then
+	echo "Usage: $0 <commit>"
+	exit 1
+fi
+
+MYBRANCH=$(git branch | gawk '/^\* / { print $2 }')
+TMPBRANCH="tmp-commit-edit.$$"
+LAST=$(git log --format='%H' -1)
+
+echo "Last commit HEAD $LAST"
+git checkout -f -b "$TMPBRANCH" "$CID"
+echo "Kill the commit"
+git reset --hard HEAD^
+
+echo Rebase back: git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH"
+git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH" || { echo did not work for some reason, fix and rerun the command above; exit 1; }
+git branch -d "$TMPBRANCH"
+
+echo "done."

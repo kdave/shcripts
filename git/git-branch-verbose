@@ -1,0 +1,47 @@
+#!/usr/bin/perl
+# list branches with verbose timestamp, optionally sorted by commit date
+#
+# $0 -a
+# $0 -r
+# $0 --sort
+
+use strict;
+
+my $pretty_cmd="git log --pretty=format:'%h %ar(%at)  %s' -n 1";
+my @my_args=();
+my @branch_args=();
+my $sort='';
+
+foreach(@ARGV) {
+	if(/^--/) { push @my_args,$_;
+	} else { push @branch_args,$_; }
+}
+my $branch_args=join(' ',@branch_args);
+
+if (grep('--sort', @my_args)) {
+	$sort='--sort=committerdate';
+}
+
+my $max=0;
+my @bnames=map { $_ =~ s/^..//; if(length > $max) { $max=length; }; $_ } split('\n', qx{git branch $sort $branch_args --no-color 2>/dev/null});
+my @branches = map { $_ . " " . qx{$pretty_cmd $_ --} } @bnames;
+
+sub byts {
+	$a =~ /\s*([^\s]+)\s+([^\s]+)\s+(.*?ago)\(([^\)]+)\)\s+(.*)/;
+	my $ts=$4;
+	$b =~ /\s*([^\s]+)\s+([^\s]+)\s+(.*?ago)\(([^\)]+)\)\s+(.*)/;
+	return $4 <=> $a;
+}
+
+#arne-scrub 6b3dee2 26 hours ago(number)    btrfs: correct locking scheme on btrfs_rm_device
+my $m_ts=0;
+foreach(@branches) {
+	/\s*([^\s]+)\s+([^\s]+)\s+(.*?ago)\([^\)]+\)\s+(.*)/;
+	#print "1: $1\n"; print "2: $2\n"; print "3: $3\n"; print "4: $4\n";
+	$m_ts=length($3) if(length($3)>$m_ts);
+}
+foreach(@branches) {
+	/\s*([^\s]+)\s+([^\s]+)\s+(.*?ago)\(([^\)]+)\)\s+(.*)/;
+	# $4 is ts
+	printf("%-${max}s  $2  %${m_ts}s  $5\n", $1, $3);
+}

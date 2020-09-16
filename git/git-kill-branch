@@ -1,0 +1,25 @@
+#!/bin/sh
+# delete local branch and from common remotes (gh, gl)
+
+default='gh'
+other='gl'
+echo "=== Kill local branch $1"
+git branch -D "$1"
+br="$1"
+shift
+# from all by default
+if [ -z "$1" ]; then
+	echo "=== Kill from remote $default"
+	git push $default :"$br"
+	for i in $other; do
+		echo "=== Kill from remote $i"
+		git push $i :"$br"
+	done
+	exit
+fi
+# from selected
+while [ $# -ge 1 ]; do
+	echo "=== Kill from remote $1"
+	git push "$1" :"$br"
+	shift
+done

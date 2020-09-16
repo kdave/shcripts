@@ -1,0 +1,9 @@
+# Maildir, MH, mbox or MMDF
+set mbox_type=Maildir
+set my_archivedir="out/$MBOX_NAME"
+set confirmcreate=no
+set confirmappend=yes
+set quit=yes
+folder-hook . 'push <tag-pattern>~A<enter>\
+<tag-prefix><copy-message><kill-line>\
+$my_archivedir<enter><quit>'

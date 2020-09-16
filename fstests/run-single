@@ -1,0 +1,31 @@
+#!/bin/sh
+
+dev1=/dev/sdb1
+dev1set=$(ls /dev/sdb[1-4])
+dev2=/dev/sdc1
+dev2set="$dev2 $(ls /dev/sdc[234])"
+mnt1=/mnt/a1
+mnt2=/mnt/a2
+
+export FSTYP=btrfs
+export MODULAR=1
+export VERBOSE=1
+export TEST_DIR=`readlink -f "$mnt1"`
+export TEST_DEV=$dev1
+export SCRATCH_MNT=`readlink -f "$mnt2"`
+#export SCRATCH_DEV=$dev2
+export SCRATCH_DEV_POOL=$dev2set
+export DIFF_LENGTH=0
+export MKFS_OPTIONS=
+export MOUNT_OPTIONS=
+
+export MKFS_OPTIONS_COMMON='-f'
+
+mkdir -p $mnt1 $mnt2
+
+umount $TEST_DIR
+umount $TEST_DEV
+umount $SCRATCH_MNT
+umount ${SCRATCH_DEV:-$SCRATCH_DEV_POOL}
+
+./check -T "$@"

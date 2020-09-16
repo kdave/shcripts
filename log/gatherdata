@@ -1,0 +1,5 @@
+#!/bin/sh
+# see gitlogger
+
+cp /proc/{meminfo,slabinfo,vmstat,zoneinfo} .
+cat /var/log/messages >messages

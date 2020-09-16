@@ -1,0 +1,64 @@
+#!/bin/sh
+# after a rejected patch, call wiggle on all files and try to clever-merge the
+# conflicts
+#
+# requires: wiggle
+
+function processfile() {
+	f="$1"
+
+	if ! [ -f "$f" ]; then
+		echo "$0: file.rej"
+		exit 1
+	fi
+
+	rej="$f"
+	f=${rej%%.rej}
+
+	if ! [ -f "$f" ]; then
+		echo "ERROR: file $f not found"
+		exit 1
+	fi
+
+	mode=o
+	tsize=$(stty size)
+	if [ "$?" = 0 ]; then
+		if [ "$(echo "$tsize" | cut -d\  -f 2)" -gt 160 ]; then
+			echo "Vertical mode"
+			mode=O
+		fi
+	fi
+
+	quilt add "$f"
+
+	wiggle -r "$f" "$rej"
+
+	echo "Was the merge succesful? [y/n]"
+	read -n 1 r
+	#r=y
+	echo
+
+	if [ "$r" = 'y' ]; then
+		echo adding file for git commit:
+		echo "CMD: git add $f"
+		git add "$f"
+		echo "deleting reject file $rej"
+		rm -f -- "$rej"
+	else
+		echo "Not deleting $rej, git index untouched"
+	fi
+}
+
+# main
+
+if [ "$#" = 0 ]; then
+	echo "find *.rej"
+	for i in $(find . -type f -name '*.rej'); do
+		processfile "$i"
+	done
+else
+	echo "use cmdline files"
+	for i in "$@"; do
+		processfile "$i"
+	done
+fi
