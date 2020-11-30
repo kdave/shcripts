@@ -1,0 +1,13 @@
+#!/bin/sh -x
+
+in="$1"
+
+codec=libx265
+crf=28
+
+if [ -z "$in" ]; then
+        echo "usage: $0 infile"
+        exit 1
+fi
+
+ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 "$in".x265.mp4

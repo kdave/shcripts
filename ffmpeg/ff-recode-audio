@@ -1,0 +1,11 @@
+#!/bin/sh -x
+
+in="$1"
+out="$in".q2.mp4
+
+if [ -z "$in" ]; then
+echo "usage: $0 infile"
+exit 1
+fi
+
+ffmpeg -hide_banner -i "$in" -c:v copy -c:a libmp3lame -q:a 2 "$out"

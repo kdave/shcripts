@@ -1,0 +1,22 @@
+#!/bin/sh
+fn="$1"
+
+if [ -z "$fn" ]; then
+	echo "ERROR: usage: $0 file"
+	exit 1
+fi
+
+if ! [ -f "$fn" ]; then
+	echo "ERROR: file $fn does not exist"
+	exit 1
+fi
+
+echo "CHECKING: $1"
+#ls -ld "$1"
+ffmpeg -hide_banner -v error -i "$fn" -map 0:1 -f null -
+
+if [ $? = 0 ]; then
+	echo "RESULT: ok"
+else
+	echo "there were errors"
+fi

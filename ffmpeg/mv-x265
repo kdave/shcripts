@@ -1,0 +1,10 @@
+#!/bin/sh
+
+mmv -v '*.avi.x265.mp4' '#1.x265.mp4'
+mmv -v '*.flv.x265.mp4' '#1.x265.mp4'
+mmv -v '*.mkv.x265.mp4' '#1.x265.mp4'
+mmv -v '*.mp4.x265.mp4' '#1.x265.mp4'
+mmv -v '*.mpg.x265.mp4' '#1.x265.mp4'
+mmv -v '*.MPG.x265.mp4' '#1.x265.mp4'
+mmv -v '*.rm.x265.mp4' '#1.x265.mp4'
+mmv -v '*.webm.x265.mp4' '#1.x265.mp4'

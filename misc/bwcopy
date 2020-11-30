@@ -1,0 +1,5 @@
+#!/bin/sh
+limit=400k
+
+echo "RSYNC: $1 -> $2"
+rsync -vaxAXPH --bwlimit="$limit" "$1" "$2"

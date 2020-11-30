@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ff-info "$1" 2>&1 | grep Duration
+ff-info "$1".x265.mp4 2>&1 | grep Duration

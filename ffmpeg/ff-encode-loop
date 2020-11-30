@@ -1,0 +1,80 @@
+#!/bin/sh
+
+codec=libx265
+crf=28
+
+convert_file() {
+	local file
+	local filebase
+	local ret
+	local unknown
+	local out
+	local outdir
+	local outpath
+	local filepath
+
+	file="$1"
+	filebase="`basename \"$file\"`"
+	filepath="`readlink -f \"$file\"`"
+	outdir="`dirname \"$filepath\"`"
+	echo "FILE: $file"
+	echo "BASE: $filebase"
+	echo "FILEPATH: $filepath"
+	echo "OUTDIR: $outdir"
+	unknown=1
+	case "$file" in
+	*.x265.mp4)
+		echo "CONVERTED: skip"
+		return 0;;
+	*.avi) unknown=0;;
+	*.flv) unknown=0;;
+	*.mkv) unknown=0;;
+	*.mp4) unknown=0;;
+	*.mpg) unknown=0;;
+	*.MPG) unknown=0;;
+	*.rm) unknown=0;;
+	*.webm) unknown=0;;
+	esac
+	if [ $unknown = 1 ]; then
+		#echo "FORMAT: unknown"
+		return 0
+	fi
+	out="$filebase".x265.mp4
+	outtmp="$filebase".x265.tmp.mp4
+	outpath="$outdir/$out"
+	if [ -f "$outpath" ]; then
+		echo "SKIP: already converted in the orignal file directory"
+		return 0
+	fi
+	if [ -f "$out" ]; then
+		echo "SKIP: already converted in current directory"
+		return 0
+	fi
+	echo "ENCODING: start"
+	# create the file in current directory, move later
+	rm -- "$outtmp"
+	ffmpeg -hide_banner -i "$file" -c:v "$codec" -crf "$crf" -c:a libmp3lame -q:a 2 "$outtmp"
+	( sleep 5; ff-cpulimit & )
+	ret=$?
+	if [ $? = 0 ]; then
+		echo "FINISHED: ok"
+		mv -- "$outtmp" "$outpath"
+		ln -s -- "$outpath" "$out"
+	else
+		echo "FINISHED: error $ret"
+		rm -- "$outtmp"
+	fi
+	touch "$out"
+
+	return 1
+}
+
+ret=0
+for file in *; do
+	convert_file "$file"
+	if [ $ret = 0 -a $? != 0 ]; then
+		ret=1
+	fi
+done
+
+echo "FINAL RET: $ret"

@@ -1,0 +1,3 @@
+#!/bin/sh -x
+
+sudo cpulimit -b -l 200 -p `pgrep ffmpeg`

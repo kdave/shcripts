@@ -1,0 +1,4 @@
+#!/bin/sh
+in="$1"
+touch /tmp/vidout
+ffmpeg -hide_banner -i "$in" -b:v 4000k -r 25 -c:v libxvid -c:a libmp3lame -b:a 192k -n /tmp/vidout

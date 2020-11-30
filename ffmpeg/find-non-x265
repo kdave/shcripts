@@ -1,0 +1,12 @@
+#!/bin/sh
+
+IFS='
+'
+last=
+for i in `find . -type f \! -name '*.x265*'`; do
+	#echo "FILE: $i"
+	dn=`dirname "$i"`
+	[ "$last" = "$dn" ] && continue
+	last="$dn"
+	echo "DIR: $dn"
+done
