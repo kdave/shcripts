@@ -1,0 +1,6 @@
+#!/bin/sh
+
+xclip -i -selection primary < /dev/null
+xclip -i -selection secondary < /dev/null
+xclip -i -selection clipboard < /dev/null
+xclip -i -selection buffer-cut < /dev/null

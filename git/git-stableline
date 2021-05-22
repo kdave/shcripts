@@ -1,0 +1,5 @@
+#!/bin/sh
+# Format line for stable patch dependencies (see
+# Documentation/process/stable-kernel-rules.rst)
+
+git --no-pager show -s --abbrev-commit --abbrev=12 --pretty=format:"CC: stable@vger.kernel.org # 1.2.x: %h: %s%n" "$@"

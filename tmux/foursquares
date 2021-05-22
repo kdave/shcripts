@@ -1,0 +1,15 @@
+#!/bin/sh
+# create layout with four 50% squares
+
+# [0]
+# ---
+# [1]
+tmux splitw -v -d -p 50
+# [0|1]
+# -----
+# [ 2 ]
+tmux splitw -h -d -p 50
+# [0|1]
+# -----
+# [2|3]
+tmux splitw -t 2 -h -d -p 50
