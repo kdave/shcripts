@@ -1,0 +1,9 @@
+#!/bin/sh
+# print lines between two markers, start included, end excluded
+
+awk "
+BEGIN { doprint=0; }
+/$1/ { doprint=1; }
+/$2/ { doprint=0; }
+doprint == 1 { print }
+"

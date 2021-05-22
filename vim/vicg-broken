@@ -2,12 +2,9 @@
 # usage: $0 [struct] <type to search> [<member>]
 
 # open vim with coccigrep search, save temporary output for repeated calls
-# NOTE: upstream coccigrep stopped working for some reason, this is a simpler
-# version that does not find all occurences
 
 para=`grep -c ^processor /proc/cpuinfo`
-tmp=/tmp/coccigrep.$$$RANDOM.txt
-tmpcocci=/tmp/coccigrep.$$$RANDOM.txt
+tmp=/tmp/coccigrep.$RANDOM$$.txt
 memb=
 stru=
 
@@ -30,28 +27,12 @@ else
 fi
 
 if ! [ -z "$1" ]; then
-	memb="$1"
+	memb="-a $1"
 	shift
 fi
 
 echo "Running coccigrep with $para jobs to $tmp"
 echo "RUN: coccigrep -p $para --vim -t $stru $memb $@ *.[ch] > $tmp"
-#coccigrep -p $para --vim -t "$stru" $memb "$@" *.[ch] > "$tmp"
-
-echo "@@
-$stru *STRUCT;
-@@
-* STRUCT->$memb" > "$tmpcocci"
-
-cat "$tmpcocci"
-
-spatch --quiet --jobs $para -sp_file "$tmpcocci" -dir . -include_headers -U 0 |
-	awk 'BEGIN{fn="NONE";ln=0;}
-		/^---/ { fn=$2; }
-		/^@@/ { ln=$2; ln=-ln; printf("%s:%d:1\n",fn,ln); }' \
-	> "$tmp"
-
-rm -- "$tmpcocci"
-
+coccigrep -p $para --vim -t "$stru" $memb "$@" *.[ch] > "$tmp"
 echo "Using $tmp for results, run   vim -q $tmp"
 vim -q "$tmp"
