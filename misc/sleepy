@@ -1,0 +1,44 @@
+#!/bin/sh
+# Interactive sleep:
+#
+# + increase by 10 seconds
+# - decrease by 10 seconds
+# q stop sleeping
+# anything else prints remaining time
+
+t=${1:-1}
+ts="$t"
+
+case "$t" in
+	*s) tm=${t%*s} t=$(($tm)) ;;
+	*m) tm=${t%*m} t=$(($tm * 60)) ;;
+	*h) tm=${t%*h} t=$(($tm * 60 * 60)) ;;
+	*d) tm=${t%*d} t=$(($tm * 60 * 60 * 24)) ;;
+	*[0-9]) : ;;
+	*) echo "ERROR: unknown timestamp"; exit 1;;
+esac
+
+while :; do
+	read -n 1 -t 1 ch
+	ret=$?
+	if [ $ret = 142 ]; then
+		# timeout
+		:
+	elif [ $ret = 0 ]; then
+		# keypress
+		echo "sleep for $ts, remaining" `TZ=utc date --date=@$t +%H:%M:%S` "($t)"
+		if [ "$ch" = 'q' ]; then
+			echo "quit"
+			exit 0
+		elif [ "$ch" = '+' ]; then
+			echo "increase by 10s"
+			t=$(($t + 10 - 1))
+		elif [ "$ch" = '-' ]; then
+			echo "decrease by 10s"
+			t=$(($t - 10 - 1))
+		fi
+		t=$(($t + 1))
+	fi
+	t=$(($t - 1))
+	[ "$t" -lt 0 ] && break
+done

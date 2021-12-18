@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+$|++;
+while (($_=<>) ne '') {
+	print;
+	`sleep 0.1`;
+}

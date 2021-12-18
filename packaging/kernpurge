@@ -1,0 +1,77 @@
+#!/usr/bin/perl
+# Print kdialog with list of installed kernel packages and allow selection to
+# remove them, current kernel is not in the list
+
+my $running=qx{uname -r};
+$running =~ s/-.*//;
+chomp($running);
+
+sub cleanname {
+	# kernel-default-4.7.4-4.1.x86_64
+	my ($n)=@_;
+	my @f=split(/-/, $n);
+	my $v2=pop @f;
+	my $v1=pop @f;
+	#print "CNN: $n -> $v1.$v2\n";
+	return "$v1.$v2";
+}
+sub onlyversion {
+	my ($n) = @_;
+	$n =~ s/\.noarch$//;
+	$n =~ s/\.x86_64$//;
+	my @f=split(/-/, $n);
+	my $v2=pop @f;
+	my $v1=pop @f;
+	return "$v1-$v2";
+}
+
+print("Read rpm database\n");
+open(F,"rpm -qa |") or die;
+my @qa=<F>;
+close(F);
+chomp @qa;
+
+print("Filter packages\n");
+my @kern=grep(/^kernel-/, @qa);
+my @all;
+for (@kern) {
+	next if /^kernel-macros/;
+	next if /^kernel-firmware/;
+	next if /$running/x;
+	push @all, $_;
+	print "CN: ",cleanname($_), "\n";
+}
+
+
+my @all=sort {
+	my $ma=&onlyversion($a);
+	my $mb=&onlyversion($b);
+	my $c=qx{zypper vcmp "$ma" "$mb"};
+	my $ret;
+	$ret = -1 if $c =~ /older/;
+	$ret = 0 if $c =~ /matches/;
+	$ret = 1 if $c =~ /newer/;
+	$ret;
+} @all;
+
+#print "K:\n", join("\n", @all, '');
+
+my $cmd="kdialog --geometry 640x680 --checklist \"Remove kernels ($running)\" ";
+for (@all) {
+	$cmd.="$_ $_ off ";
+}
+
+print "CMD: $cmd\n";
+my $out=qx{$cmd};
+my $ret=$?;
+print "RET: $ret\n";
+print "OUT: $out\n";
+$cmd='sudo rpm -evh ';
+chomp $out;
+if ($ret == 0) {
+	if ($out =~ /[^\s]/) {
+		print "RUN: $cmd $out\n";
+		$cmd="$cmd $out";
+		system($cmd);
+	}
+}
