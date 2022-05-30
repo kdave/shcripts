@@ -1,6 +1,16 @@
 #!/bin/sh -x
 
+codecmap='-c:s copy -c:d copy -c:t copy'
+if [ "$1" = "-nosub" ]; then
+	echo "No subtitles converted"
+	codecmap="$codecmap -map -0:s"
+	shift
+fi
+
 in="$1"
+out="$1".x265.mp4
+outtmp="$1".tmp.x265.mp4
+shift
 
 codec=libx265
 crf=28
@@ -10,4 +20,12 @@ if [ -z "$in" ]; then
         exit 1
 fi
 
-ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 "$in".x265.mp4
+#ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 -c:s copy -c:d copy -c:t copy -map 0 "$outtmp"
+ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 $codecmap -map 0 "$outtmp"
+ret=$?
+if [ $ret = 0 ]; then
+	echo "Conversion ok, renaming"
+	mv "$outtmp" "$out"
+else
+	echo "Conversion FAILED, check the result"
+fi
