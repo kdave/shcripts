@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use File::Find;
+use File::Sync qw(fsync);
+use File::Basename;
+
+my $burst=100;
+my $timer=30;
+my $delay=10;
+my $now;
+
+sub fsync_dir($) {
+	print("fsync $_[0]\n");
+	open(DIR,"<$_[0]");
+	fsync(DIR);
+	close(DIR);
+}
+
+# directories post-order
+sub wanted {
+	print("at: $_\n");
+	unlink if (-f);
+	if (time - $now >= $timer) {
+		fsync_dir(dirname($_));
+		$now=time;
+		sleep($delay);
+	}
+	if (-d) {
+		print("rmdir $_\n");
+		rmdir;
+	}
+}
+
+# main
+
+my ($dir)=@ARGV;
+$now=time;
+finddepth( { wanted => \&wanted, no_chdir => 1 }, $dir);

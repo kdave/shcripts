@@ -3,6 +3,8 @@
 codec=libx265
 crf=28
 
+withtmp=true
+
 convert_file() {
 	local file
 	local filebase
@@ -40,7 +42,20 @@ convert_file() {
 		return 0
 	fi
 	out="$filebase".x265.mp4
-	outtmp="$filebase".x265.tmp.mp4
+	# Tmp file
+	if $withtmp; then
+		rand=$(uuidgen)
+		if [ -z "$rand" ]; then
+			rand=$RANDOM$RANDOM$RANDOM
+		fi
+		outtmp="$rand.x265.tmp.mp4"
+		in="$rand.in.tmp.mp4"
+		rm -f -- "$in"
+		ln -s "$file" "$in"
+	else
+		outtmp="$filebase".x265.tmp.mp4
+		in="$file"
+	fi
 	outpath="$outdir/$out"
 	if [ -f "$outpath" ]; then
 		echo "SKIP: already converted in the orignal file directory"
@@ -53,8 +68,7 @@ convert_file() {
 	echo "ENCODING: start"
 	# create the file in current directory, move later
 	rm -- "$outtmp"
-	ffmpeg -hide_banner -i "$file" -c:v "$codec" -crf "$crf" -c:a libmp3lame -q:a 2 "$outtmp"
-	( sleep 5; ff-cpulimit & )
+	ffmpeg -hide_banner -i "$in" -c:v "$codec" -crf "$crf" -c:a libmp3lame -q:a 2 "$outtmp"
 	ret=$?
 	if [ $? = 0 ]; then
 		echo "FINISHED: ok"

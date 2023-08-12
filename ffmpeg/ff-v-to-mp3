@@ -1,0 +1,20 @@
+#!/bin/sh -x
+
+in="$1"
+out="$1".mp3
+outtmp="$1".tmp.mp3
+shift
+
+if [ -z "$in" ]; then
+        echo "usage: $0 infile"
+        exit 1
+fi
+
+ffmpeg -hide_banner -i "$in" -vn -c:a libmp3lame -q:a 2 "$outtmp"
+ret=$?
+if [ $ret = 0 ]; then
+	echo "Conversion ok, renaming"
+	mv "$outtmp" "$out"
+else
+	echo "Conversion FAILED, check the result"
+fi

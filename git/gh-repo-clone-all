@@ -1,0 +1,14 @@
+#!/bin/sh
+
+repo="$1"
+limit=1000
+
+if [ -z "$repo" ]; then
+	echo "Usage: $0 reponame"
+	exit 1
+fi
+
+for r in $(gh repo list -L $limit "$repo" | awk '{print $1}'); do
+	echo "=== Cloning $r"
+	gh repo clone "$r"
+done

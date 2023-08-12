@@ -1,0 +1,35 @@
+#!/bin/sh
+
+lsmod=$(sudo lsmod)
+
+function x() {
+	local mod="$1"
+
+	if ! echo "$lsmod" | grep -q "$mod"; then
+		echo "Not loaded: $mod"
+		return
+	fi
+	echo "Removing $mod"
+	sudo modprobe -r "$mod"
+	if ! [ $? = 0 ]; then
+		echo "  failed"
+	fi
+}
+
+x joydev
+x appletalk
+x psnap
+x llc
+x ax25
+x iscsi_ibft
+x iscsi_boot_sysfs
+x ppdev
+x mei_hdcp
+x parport_pc
+x parport
+x nbd
+x dm_multipath
+x dm_mod
+x scsi_dh_rdac
+x scsi_dh_emc
+x scsi_dh_alua

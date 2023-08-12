@@ -1,0 +1,11 @@
+#!/bin/sh
+
+fftimes=$(readlink -f "$0")
+fftimes=$(dirname "$fftimes")/ff-times
+
+for f in *; do
+	fext="${f}.x265.mp4"
+	[ -f "$fext" ] || continue
+	"$fftimes" "$f"
+	echo
+done

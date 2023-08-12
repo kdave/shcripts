@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 version"
+	exit 1
+fi
+
+ver="$1"
+
+for i in gcc cpp g++ gcc-ar gcc-nm gcc-ranlib gcov gcov-dump gcov-tool lto-dump; do
+	s="/usr/bin/${i}-${ver}"
+	if ! [ -f "$s" ]; then
+		echo "Skip: $s"
+		continue
+	fi
+	echo "Link: $s"
+	ln -s "$s" "$i"
+done
+
+[ -f "g++" ] && ln -s g++ c++
+[ -f "gcc" ] && ln -s gcc cc
+

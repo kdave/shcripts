@@ -1,4 +1,10 @@
 #!/bin/sh
 
 ff-info "$1" 2>&1 | grep Duration
-ff-info "$1".x265.mp4 2>&1 | grep Duration
+if [ -f "$1".x265.mp4 ]; then
+	ff-info "$1".x265.mp4 2>&1 | grep Duration
+fi
+if [ -f "$1".x265.mkv ]; then
+	ff-info "$1".x265.mkv 2>&1 | grep Duration
+	echo "MKV"
+fi

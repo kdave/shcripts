@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Go through directory with versioned sources, keep the last (des not work with
+# git-sha named files)
+
+dorun=true
+verbose=false
+
+die() { echo "ERROR: $@"; exit 1; }
+
+cd sources || die "no sources"
+
+here=`pwd`
+
+for d in $(ls -d1 *); do
+	$verbose && echo "Entering $d"
+	cd "$here"
+	cd "$d" || continue
+
+	nr=$(ls -1 *.url | wc -l)
+	if [ "$nr" = 1 ]; then
+		$verbose && echo " nothing"
+		continue
+	fi
+	$verbose && echo " found $nr-1 to delete"
+	for f in $(ls -1 --sort=version *.url | head -n -1); do
+		$verbose echo " remove $f"
+		bn=$(basename "$f" .url)
+		echo rm -f -- "$bn"*
+		$dorun && rm -f -- "$bn"*
+	done
+done

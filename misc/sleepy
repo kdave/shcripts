@@ -19,6 +19,7 @@ case "$t" in
 esac
 
 while :; do
+	[ "$t" -le 0 ] && break
 	read -n 1 -t 1 ch
 	ret=$?
 	if [ $ret = 142 ]; then
@@ -40,5 +41,4 @@ while :; do
 		t=$(($t + 1))
 	fi
 	t=$(($t - 1))
-	[ "$t" -lt 0 ] && break
 done
