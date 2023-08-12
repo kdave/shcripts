@@ -1,0 +1,7 @@
+#!/bin/sh -x
+
+# Resolve after failed 'git am', add all files and continue; clean known rejects
+
+lsdiff --strip 1 .git/rebase-apply/patch | xargs git add
+git am --continue
+clean-rejects

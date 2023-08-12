@@ -1,0 +1,75 @@
+#!/bin/sh
+
+patch=`cat`
+edit=false
+arg1="$1"
+arg2="$2"
+shift
+shift
+
+if [ -z "$arg1" ]; then
+	# autoselect
+	echo "GITAM: autoselect path"
+	kernel=false
+	progs=false
+	for file in $(echo "$patch" | lsdiff --strip 1); do
+		if [[ $file =~ ^fs/btrfs/ ]] || [[ $file =~ ^include/uapi ]] ||
+		   [[ $file =~ ^include/trace/events ]]; then
+			if $progs; then
+				echo "ERROR: unrecognized path for kernel: $file"
+				exit 1
+			fi
+			if $kernel; then continue;fi
+			kernel=true
+			continue
+		else
+			if $kernel; then
+				echo "ERROR: unrecognized path for progs: $file"
+				exit 1
+			fi
+			progs=true
+		fi
+	done
+	if $progs; then repo='btrfs-progs'; fi
+	if $kernel; then repo='kernel'; fi
+else
+	echo "GITAM: repo $repo"
+	repo="$arg1"
+fi
+
+if [ "$arg2" = 'edit' ]; then
+	echo "GITAM: edit before applying"
+	edit=true
+elif [ -z "$arg2" ]; then
+	:
+else
+	echo "GITAM: unrecognized 2nd command $arg2"
+fi
+
+if [ "$repo" = 'btrfs-progs' -o "$repo" = 'progs' ]; then
+	dir=/home/dsterba/labs/gits/btrfs-progs/
+	dir=/home/dsterba/labs/btrfs-progs
+elif [ "$repo" = 'fstests' -o "$repo" = 'test' -o "$repo" = 'fst' ]; then
+	dir=/home/dsterba/labs/gits-rw/xfstests
+elif [ "$repo" = 'kernel-ssd' -o "$repo" = 'ssd' -o "$repo" = 'kernel' -o "$repo" = 'kern' ]; then
+	dir=/local/dsterba/linux
+else
+	echo "GITAM: unknown repo $arg1"
+	exit 1
+fi
+
+echo "GITAM: apply patch to $repo in $dir"
+export GIT_DIR=$dir/.git
+export GIT_WORK_TREE=$dir
+cd $dir || { echo "cd $dir failed"; exit 1; }
+if $edit; then
+	tmpfile=`mktemp`
+	echo "$patch" > "$tmpfile"
+	echo "GITAM: edit $tmpfile by vi"
+	vi "$tmpfile"
+	patch=`cat "$tmpfile"`
+	rm -- "$tmpfile"
+fi
+echo "$patch" | git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE am -s --reject "$@" -
+# with message-id
+#echo "$patch" | git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE am -m -s --reject "$@" -

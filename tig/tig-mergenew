@@ -1,0 +1,2 @@
+#!/bin/sh
+exec tig `git merge-base "$1"`.."$1"

@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# git-add-byline - edit a commit message and add "Tested|Acked|...-by:" line
+#                  (works for non-HEAD patches).
+#
+# Copyright (C) 2009, 2010 Karel Zak <kzak@redhat.com>
+#
+# This file is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+CID="$1"
+BYLINE="$2"
+
+if [ -z "$CID" ]; then
+	echo "Usage: $0 <commit> <byline>"
+	exit 1
+fi
+
+MYBRANCH=$(git branch | gawk '/^\* / { print $2 }')
+TMPBRANCH="tmp.$$"
+
+git checkout -f -b "$TMPBRANCH" "$CID"
+
+git log --pretty=format:"%s%n%n%b" HEAD^..HEAD | grep -q -E '\-by: .*@'
+if [ $? == 1 ]; then
+	(git log --pretty=format:"%s%n%n%b" HEAD^..HEAD && echo "$BYLINE") | \
+	   git commit --amend -F -
+else
+	git log --pretty=format:"%s%n%n%b" HEAD^..HEAD | \
+	    awk -v tag="$BYLINE" '/\-by:/{if(last~/^[[:blank:]]*$/){print tag}}{last=$1;print $0}' | \
+	    git commit --amend -F - 
+fi
+
+git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH"
+git branch -d "$TMPBRANCH"
+
+echo "done."
+

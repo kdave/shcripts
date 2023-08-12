@@ -28,7 +28,7 @@ if [ -z "$fn" ]; then
 		echo "gimmea file"
 		exit 1
 	fi
-	vi -c ":Gdiff HEAD^" "$@"
+	vi -c ":Gvdiffsplit HEAD^" "$@"
 else
-	vi -c ":Gdiff HEAD^" "$fn"
+	vi -c ":Gvdiffsplit HEAD^" "$fn"
 fi

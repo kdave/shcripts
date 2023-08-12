@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Select a branch from list and check out
+
+b=$(bsel "$1")
+if [ "$?" != 0 ]; then
+	echo "Nothing"
+	exit 1
+fi
+
+echo "Checkout $b"
+git checkout "$b"

@@ -1,0 +1,19 @@
+#!/bin/sh
+# $0 [-o<dir>] branch [upstream]
+
+args=''
+upstream=master
+br=
+
+case "$1" in
+	-o) args="$1 $2"; shift; shift ;;
+	-o*) args="$1"; shift ;;
+esac
+
+if [ -z "$1" ]; then
+	echo "gimmea branch"
+	exit 1
+fi
+
+set -x
+git format-patch $args `git merge-base ${2:-master} $1`..$1

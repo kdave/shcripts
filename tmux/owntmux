@@ -1,0 +1,6 @@
+#!/bin/sh
+# Capture the named session
+
+session=${1:-main}
+tmux detach -s $session
+exec tmux at -t $session

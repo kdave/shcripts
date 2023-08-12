@@ -1,2 +1,3 @@
 #!/bin/sh
-exec osc --no-keyring --no-gnome-keyring -A https://api.opensuse.org "$@"
+#exec osc --no-keyring --no-gnome-keyring -A https://api.opensuse.org "$@"
+exec osc --no-keyring -A https://api.opensuse.org "$@"

@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# git-reword - edit a commit message only (like "git commit --amend", but
+#              works for non-HEAD patches).
+
+CID="$1"
+
+if [ -z "$CID" ]; then
+	echo "Usage: $0 <commit>"
+	exit 1
+fi
+
+MYBRANCH=$(git branch | gawk '/^\* / { print $2 }')
+TMPBRANCH="tmp-commit-edit.$$"
+
+echo "FINALIZE BY:" git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH"
+git checkout -f -b "$TMPBRANCH" "$CID"
+
+git commit --amend
+
+echo git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH"
+git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH" || { echo did not work for some reason, fix and rerun the command above; exit 1; }
+git branch -d "$TMPBRANCH"
+
+echo "done."

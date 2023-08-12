@@ -1,0 +1,96 @@
+#!/bin/sh
+#
+# Add reviewed-by tag
+
+update=cat
+update='git commit --amend -F -'
+
+me='Reviewed-by: David Sterba <dsterba@suse.com>'
+itsme=0
+
+if [ -z "$1" -o "$1" = 'me' ]; then
+	rev="$me"
+	itsme=1
+elif [ "$1" = 'nik' -o "$1" = 'nikbor' ]; then
+	rev='Reviewed-by: Nikolay Borisov <nborisov@suse.com>'
+elif [ "$1" = 'nik-tested' -o "$1" = 'nikbor-tested' ]; then
+	rev='Tested-by: Nikolay Borisov <nborisov@suse.com>'
+elif [ "$1" = 'anand' ]; then
+	rev='Reviewed-by: Anand Jain <anand.jain@oracle.com>'
+	#rev='Tested-by: Anand Jain <anand.jain@oracle.com> # [aarch64]'
+elif [ "$1" = 'qu' ]; then
+	rev='Reviewed-by: Qu Wenruo <wqu@suse.com>'
+elif [ "$1" = 'filipe' ]; then
+	rev='Reviewed-by: Filipe Manana <fdmanana@suse.com>'
+elif [ "$1" = 'liubo' ]; then
+	rev='Reviewed-by: Liu Bo <bo.liu@linux.alibaba.com>'
+elif [ "$1" = 'omar' ]; then
+	rev='Reviewed-by: Omar Sandoval <osandov@fb.com>'
+elif [ "$1" = 'su' ]; then
+	#rev='Reviewed-by: Su Yue <suy.fnst@cn.fujitsu.com>'
+	rev='Reviewed-by: Su Yue <l@damenly.su>'
+elif [ "$1" = 'misono' ]; then
+	rev='Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>'
+elif [ "$1" = 'lu' ]; then
+	rev='Reviewed-by: Lu Fengqi <lufq.fnst@cn.fujitsu.com>'
+elif [ "$1" = 'gu' ]; then
+	rev='Reviewed-by: Gu Jinxiang <gujx@cn.fujitsu.com>'
+elif [ "$1" = 'josef' ]; then
+	rev='Reviewed-by: Josef Bacik <josef@toxicpanda.com>'
+elif [ "$1" = 'johannes' -o "$1" = 'jth' ]; then
+	rev='Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>'
+elif [ "$1" = 'goldwyn' ]; then
+	rev='Reviewed-by: Goldwyn Rodrigues <rgoldwyn@suse.com>'
+elif [ "$1" = 'chaita' ]; then
+	rev='Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>'
+elif [ "$1" = 'hch' ]; then
+	rev='Reviewed-by: Christoph Hellwig <hch@lst.de>'
+elif [ "$1" = 'ritesh' ]; then
+	rev='Tested-by: Ritesh Harjani <riteshh@linux.ibm.com> # [ppc64]'
+elif [ "$1" = 'naohiro' ]; then
+	rev='Reviewed-by: Naohiro Aota <naohiro.aota@wdc.com>'
+elif [ "$1" = 'boris' ]; then
+	rev='Reviewed-by: Boris Burkov <boris@bur.io>'
+elif [ "$1" = 'stea' -o "$1" = 'tea' ]; then
+	rev='Reviewed-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>'
+elif [ "$1" = 'djw' -o "$1" = 'darrick' ]; then
+	rev='Reviewed-by: Darrick J. Wong <djwong@kernel.org>'
+elif [ "$1" = 'jens' ] ; then
+	rev='Reviewed-by: Jens Axboe <axboe@kernel.dk>'
+elif [ "$1" = 'mason' ] ; then
+	rev='Reviewed-by: Chris Mason <clm@fb.com>'
+else
+	echo "ERROR: Unrecognized name: $1"
+	exit 1
+fi
+
+git log --pretty=format:"%s%n%n%b" HEAD^..HEAD  |
+awk -v tag="$rev" -v itsme="$itsme" -v printed=0 \
+'
+/Signed-off-by/ {
+	if ($0 ~/Sterba/) {
+		if (itsme) {
+			if (!printed) print tag;
+			printed=1;
+		} else {
+			if (!printed) print tag;
+			printed=1;
+		}
+	} else {
+		if (itsme) {
+		} else {
+			if (!printed) print tag;
+			printed=1;
+		}
+	}
+}
+/David Sterba/ {
+	if ($0 ~ /^.igned-off-by:.*Sterba/) {
+		if (!printed) print tag;
+		printed=1;
+	}
+}
+{
+	print $0;
+}' |
+	$update

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Disassemble object file, branches and wide instructions, unmangled symbols
+objdump --insn-width=10 --visualize-jumps=extended-color -dr "$@" | c++filt | less

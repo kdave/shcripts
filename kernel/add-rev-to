@@ -1,0 +1,41 @@
+#!/bin/sh
+# usage: $0 name commit
+# edit commit, run 'add-rev name' and edit to fixup things
+# then go back
+
+NAME="$1"
+CID="$2"
+EDITAFTER=false
+
+if [ -z "$NAME" ]; then
+	echo "Will use default reviewer"
+fi
+
+if [ -z "$CID" ]; then
+	echo "Usage: $0 name <commit>"
+	exit 1
+fi
+
+MYBRANCH=$(git branch | gawk '/^\* / { print $2 }')
+TMPBRANCH="tmp-commit-edit.$$"
+
+echo "FINALIZE BY:" git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH"
+git checkout -f -b "$TMPBRANCH" "$CID"
+
+echo
+echo "(Shell started) Now edit the diff and run"
+echo "   git commit --amend"
+echo
+echo "(then type exit and git will continue)"
+
+#bash
+add-rev $NAME
+if $EDITAFTER; then
+	git commit --amend -v
+fi
+
+echo git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH"
+git rebase --onto "$TMPBRANCH" "$CID" "$MYBRANCH" || { echo did not work for some reason, fix and rerun the command above; exit 1; }
+git branch -d "$TMPBRANCH"
+
+echo "done."

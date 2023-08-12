@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && { echo "usage: $0 regex"; exit 1; }
+vi -c ':Ggrep "'"$@"'"'

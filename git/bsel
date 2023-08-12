@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# Visual branch selector
+
+width=60
+branches=( `bgrep "$1" | sed -e 's/^\*/ /' | sed -e 's/^+/ /'` )
+#echo "${branches[@]}"
+sel=$(dialog --erase-on-exit --no-hot-list --no-items --menu Branches 30 "$widith" 12 "${branches[@]}" 2>&1 >/dev/tty)
+ret=$?
+[ $ret != 0 ] && exit $ret
+echo "$sel"

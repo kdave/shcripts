@@ -1,0 +1,7 @@
+#!/bin/sh
+# needs fugitive-vim
+
+[ -z "$1" ] && { echo "usage: $0 regex"; exit 1; }
+
+regex="$1"
+vi --cmd ":au BufWinEnter * call Ggrep(\"$regex\")" /tmp/stub

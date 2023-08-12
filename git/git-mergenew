@@ -1,0 +1,3 @@
+#!/bin/sh
+# usage: git-mergenew command branch
+exec git $1 `git merge-base "$2"`.."$2"
