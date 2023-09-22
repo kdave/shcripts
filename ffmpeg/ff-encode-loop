@@ -29,6 +29,7 @@ convert_file() {
 		echo "CONVERTED: skip"
 		return 0;;
 	*.avi) unknown=0;;
+	*.AVI) unknown=0;;
 	*.flv) unknown=0;;
 	*.mkv) unknown=0;;
 	*.mp4) unknown=0;;

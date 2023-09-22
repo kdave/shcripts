@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Convenient way to update python packages that exist on lower version so the
+# current one
+
+target=311
+from=${1:-38 39 310}
+
+todo=""
+
+for v in $from; do
+	for pkg in $(zypper se -i python${v} | grep '^i' | awk '{print $3}'); do
+		new=$(echo "$pkg" | sed -e "s/python${v}/python${target}/")
+		echo "$pkg -> $new"
+		todo="$todo $new"
+	done
+done
+
+echo "TODO: $todo"
+
+sudo zypper install -l -y --recommends $todo

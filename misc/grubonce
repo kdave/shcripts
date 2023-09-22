@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+#
+# Grubonce working on grub 2
+
+use warnings;
+use strict;
+
+my $sudo='';
+my $saved='';
+my $savedfound=0;
+my $next='';
+
+$sudo='sudo';
+my $grubconf='/boot/grub2/grubenv';
+
+my @c=split(/\n/, qx{$sudo grub2-editenv list});
+chomp @c;
+
+foreach (@c) {
+	$saved=$1 if(/saved_entry=(.*)/);
+	$next=$1 if(/next_entry=(.*)/);
+}
+print "saved: $saved\n";
+print "next: $next\n";
+
+@c=split(/\n/, qx{$sudo grub2-once --list});
+
+# delete 'next'
+my $arg1=$ARGV[0] // '';
+if ($arg1 eq 'N') {
+	qx{$sudo grub2-editenv "$grubconf" unset next_entry};
+	exit;
+}
+
+if ($arg1 ne '') {
+	my $newid=qx{$sudo grub2-once --show-mapped "$arg1"};
+	print "NEWID: $newid\n";
+	qx{$sudo grub2-once "$newid"};
+	exit;
+}
+
+foreach (@c) {
+	if($saved ne '' && m{$saved}) {
+		$savedfound=1;
+		print "S";
+	} else {
+		print " ";
+	}
+	if($next ne '' && m{$next}) {
+		print "N";
+	} else {
+		print " ";
+	}
+	print "$_\n";
+}
+
+if (!$savedfound) {
+	print "ALERT: default entry not found\n";
+}

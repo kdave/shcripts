@@ -1,0 +1,13 @@
+#!/bin/sh
+# Create a timestamped clone of a file (cow/nocow)
+
+ts=`date +%F-%T`
+f="$1"
+out="$1-$ts"
+touch "$f-$ts"
+
+if lsattr "$f" | awk '{print $1}' | grep -q 'C'; then
+	chattr +C "$out"
+fi
+
+cp --reflink=always "$f" "$out"
