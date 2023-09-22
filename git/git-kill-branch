@@ -1,5 +1,10 @@
 #!/bin/sh
-# delete local branch and from common remotes (gh, gl)
+# Delete local branch and from common remotes (gh, gl) in the background
+
+if [ -z "$1" ]; then
+	echo "Gimme branch"
+	exit 1
+fi
 
 default='gh'
 other='gl'
@@ -9,17 +14,17 @@ br="$1"
 shift
 # from all by default
 if [ -z "$1" ]; then
-	echo "=== Kill from remote $default"
-	git push $default :"$br"
+	echo "=== Kill from remote $default (background)"
+	git push $default :"$br" >& /dev/null &
 	for i in $other; do
-		echo "=== Kill from remote $i"
-		git push $i :"$br"
+		echo "=== Kill from remote $i (background)"
+		git push $i :"$br" >& /dev/null &
 	done
 	exit
 fi
 # from selected
 while [ $# -ge 1 ]; do
-	echo "=== Kill from remote $1"
-	git push "$1" :"$br"
+	echo "=== Kill from remote $1 (background)"
+	git push "$1" :"$br" >& /dev/null
 	shift
 done
