@@ -1,2 +1,3 @@
 #!/bin/sh
+## Edit changelog of HEAD.
 exec git edit "$@"

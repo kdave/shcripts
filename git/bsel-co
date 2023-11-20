@@ -1,6 +1,5 @@
 #!/bin/sh
-#
-# Select a branch from list and check out
+## Visual git branch selector (bgrep, dialog), then check out the branch.
 
 b=$(bsel "$1")
 if [ "$?" != 0 ]; then

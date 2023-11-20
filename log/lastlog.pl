@@ -1,6 +1,6 @@
 #!/usr/bin/perl
-# chop the messages since last boot from a continuous serial console log,
-# identified by the timestamp change
+## Chop the messages since last boot from a continuous serial console log,
+## identified by the timestamp change.
 
 my $fn=$ARGV[0] // 'serial.log';
 open(FH, "<$fn") or die $!;

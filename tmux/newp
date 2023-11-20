@@ -1,6 +1,6 @@
 #!/bin/sh
-# split panel, 2 lines at the bottom just to see the command but not the output,
-# exit afterwards
+## Split panel, 2 lines at the bottom just to see the command but not the output,
+## exit afterwards
 
 pwd=`pwd`
 cmd="$@"

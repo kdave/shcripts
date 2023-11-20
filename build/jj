@@ -1,2 +1,3 @@
 #!/bin/sh
+## Shortcut for unlimited make with icecream.
 makej -j "$@"

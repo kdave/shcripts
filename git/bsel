@@ -1,6 +1,5 @@
 #!/bin/sh
-#
-# Visual branch selector
+## Visual git branch selector (bgrep, dialog), then print the branch name.
 
 width=60
 branches=( `bgrep "$1" | sed -e 's/^\*/ /' | sed -e 's/^+/ /'` )

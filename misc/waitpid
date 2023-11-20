@@ -1,7 +1,17 @@
-#!/bin/sh
-# wait until the given pid exits
+#!/bin/bash
+## Wait until a given pid exits (poll).
+
+declare -a zzz
+zzz=(z zz zzz)
 
 pid=${1:-0}
-while ps -p $pid; do
+i=0
+echo "Start waitpid $pid:" `date`
+while ps -p $pid >& /dev/null; do
 	sleep 1
+	x=$((i++%3))
+	tput cr
+	tput el
+	echo -en "${zzz[$x]}"
 done
+echo "End waitpid $pid:" `date`

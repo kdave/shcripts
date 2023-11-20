@@ -1,4 +1,4 @@
 #!/bin/sh
-# delete given btrfs subvolumes
+## Delete given btrfs subvolumes (as root).
 
 sudo btrfs subvol delete "$@"

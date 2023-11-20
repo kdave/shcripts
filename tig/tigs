@@ -1,4 +1,4 @@
 #!/bin/sh
-# show tig status
+## Shortcut for tig status.
 
 tig status

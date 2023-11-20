@@ -1,1 +1,2 @@
+## Set up a block device with dm-crypt (aes-xts-plain64/sha512)
 cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase luksFormat "$@"

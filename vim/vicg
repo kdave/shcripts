@@ -1,9 +1,9 @@
 #!/bin/sh
 # usage: $0 [struct] <type to search> [<member>]
 
-# open vim with coccigrep search, save temporary output for repeated calls
-# NOTE: upstream coccigrep stopped working for some reason, this is a simpler
-# version that does not find all occurences
+## Open vim with coccigrep search, save temporary output for repeated calls
+## NOTE: upstream coccigrep stopped working for some reason, this is a simpler
+## version that does not find all occurences.
 
 para=`grep -c ^processor /proc/cpuinfo`
 tmp=/tmp/coccigrep.$$$RANDOM.txt

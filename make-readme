@@ -1,0 +1,27 @@
+#!/bin/sh
+# Generate README.md from the basic template and file descriptions
+
+exec > README.md
+
+cat README.md.in
+
+lastdn=
+for file in */*; do
+	echo "Processing: $file" >&2
+	fn=$(basename "$file")
+	dn=$(dirname "$file")
+	if ! grep -q '^##' < "$file"; then
+		continue
+	fi
+	echo " generate text" >&2
+	if [ "$lastdn" != "$dn" ]; then
+		echo
+		echo "## $dn"
+		lastdn="$dn"
+	else
+		echo '\'
+	fi
+	#echo "**${fn}**:"
+	echo "[**${fn}**](${fn}):"
+	grep '^##' < "$file" | sed 's/^##\s\+//'
+done

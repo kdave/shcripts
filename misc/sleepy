@@ -1,5 +1,5 @@
 #!/bin/sh
-# Interactive sleep:
+## Interactive sleep:
 #
 # + increase by 10 seconds
 # - decrease by 10 seconds

@@ -1,7 +1,7 @@
 #!/bin/sh
 # usage: $0 end [start]
 #
-# time delta between two timestamps
+## Time delta between two timestamps.
 
 since=`date -d "$1" +%s`
 if [ -z "$2" ]; then

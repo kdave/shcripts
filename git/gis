@@ -1,2 +1,3 @@
 #!/bin/sh
+## Git show shortcut.
 exec git show "$@"

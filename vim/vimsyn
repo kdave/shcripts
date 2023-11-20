@@ -1,5 +1,5 @@
 #!/bin/sh -x
-# generate syntax hilighted .xhtml of the given file
+## Generate syntax hilighted .xhtml of the given file.
 
 exec vim -c ":let html_number_lines = 0" -c ":let use_xhtml = 1" -c ":let html_use_css = 1" \
 	-c ':TOhtml' -c ':w' -c ':q' -c ':q' \

@@ -1,2 +1,3 @@
 #!/bin/sh
+## Shortcut for unlimited make with ccache and icecream.
 makejc -j "$@"

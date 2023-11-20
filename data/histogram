@@ -1,4 +1,4 @@
 #!/bin/sh
-# print histogram from data set
+## Print histogram from data set (numbers).
 
 cat "$@" | perl -MStatistics::Histogram -e '@data = <>; chomp @data; print get_histogram(\@data);'

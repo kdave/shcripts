@@ -1,7 +1,6 @@
 #!/bin/sh
-#
-# Convenient way to update python packages that exist on lower version so the
-# current one
+## Convenient way to update python packages that exist on lower version,
+## and install them on current one (3.11)
 
 target=311
 from=${1:-38 39 310}

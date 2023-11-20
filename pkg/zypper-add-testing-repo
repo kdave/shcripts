@@ -1,5 +1,5 @@
 #!/bin/sh
-# add my testing repo and kernel
+## Add my testing repo and kernel.
 
 if zypper lr -u | grep -q "home.*dsterba.*testing.*openSUSE"; then
 	echo testing repo already there

@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# glue together lines from dmesg that got wrapped due to text width
+## Glue together lines from dmesg that got wrapped due to text width.
 
 use strict;
 use warnings;

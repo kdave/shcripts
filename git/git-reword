@@ -1,7 +1,5 @@
 #!/bin/bash
-#
-# git-reword - edit a commit message only (like "git commit --amend", but
-#              works for non-HEAD patches).
+## Edit a commit message of a given commit (rebase and --amend).
 
 CID="$1"
 

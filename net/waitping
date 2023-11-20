@@ -1,5 +1,5 @@
 #!/bin/sh
-# wait until the given host responds to pings
+## Wait until the given host responds to pings.
 
 cnt=1
 

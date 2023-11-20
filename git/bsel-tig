@@ -1,6 +1,5 @@
 #!/bin/sh
-#
-# Visually select a branch and tig it
+## Visual git branch selector (bgrep, dialog), then run it in tig.
 
 b=$(bsel "$1")
 if [ "$?" != 0 ]; then

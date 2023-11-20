@@ -1,5 +1,5 @@
 #!/bin/sh -x
-# fix write permission on all files and directories
+## Fix write permission on all files and directories.
 
 FP="u+rwX,g+rX,o+rX,g-w,o-w"
 DP="u+rwx,g+rx,o+rx,g-w,o-w"

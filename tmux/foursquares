@@ -1,5 +1,5 @@
 #!/bin/sh
-# create layout with four 50% squares
+## Create layout with four 50% squares.
 
 # [0]
 # ---

@@ -1,5 +1,5 @@
 #!/bin/sh -x
-# template to generate textual dump of image of filesystem
+## Template to generate textual dump of image of filesystem.
 
 sz=2g
 rnd=$RANDOM

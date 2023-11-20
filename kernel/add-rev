@@ -1,6 +1,5 @@
 #!/bin/sh
-#
-# Add reviewed-by tag
+## Add reviewed-by tag from known people to the right location to the top commit.
 
 update=cat
 update='git commit --amend -F -'

@@ -1,7 +1,8 @@
 #!/bin/sh
+## Edit given commit, run 'add-rev name' and edit to fixup things
+## then go back.
+#
 # usage: $0 name commit
-# edit commit, run 'add-rev name' and edit to fixup things
-# then go back
 
 NAME="$1"
 CID="$2"

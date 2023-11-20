@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# preserve permissions on chown on a file
+## Preserve permissions on chown on a file.
 
 $uid=shift(@ARGV);
 $gid=shift(@ARGV);

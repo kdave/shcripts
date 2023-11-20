@@ -1,4 +1,4 @@
 #!/bin/sh
-# format a line from given commit for the Fixes: tag
+## Print line from given commit for the Fixes: tag.
 
 git --no-pager show -s --abbrev-commit --abbrev=12 --pretty=format:"Fixes: %h (\"%s\")%n" "$@"

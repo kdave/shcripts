@@ -1,5 +1,5 @@
 #!/bin/sh
-# vim grep all *.[ch] files in current directory and open (:cNext/:cnext)
+## vim grep all *.[ch] files in current directory and open (:cNext/:cnext).
 
 [ -z "$1" ] && { echo "usage: $0 regex"; exit 1; }
 

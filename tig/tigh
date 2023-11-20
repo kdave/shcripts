@@ -1,4 +1,4 @@
 #!/bin/sh
-# open HEAD in tig
+## Open arg in tig.
 
 tig show ${1:-HEAD}

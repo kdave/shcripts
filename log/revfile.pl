@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# reverse input, line by line and on-line
+## Reverse input, line by line and on each line (rev + tac).
 
 @file=<STDIN>;
 

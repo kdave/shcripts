@@ -1,6 +1,6 @@
 #!/usr/bin/perl
-# Print kdialog with list of installed kernel packages and allow selection to
-# remove them, current kernel is not in the list
+## Print kdialog with list of installed kernel packages and allow selection to
+## remove them, current kernel is not in the list
 
 my $running=qx{uname -r};
 $running =~ s/-.*//;

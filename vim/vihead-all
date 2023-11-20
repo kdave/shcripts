@@ -1,5 +1,5 @@
 #!/bin/sh
-# like vihead, but cycle through all files
+## Like vihead, but go through all files.
 
 diff="$(git show)"
 fn=

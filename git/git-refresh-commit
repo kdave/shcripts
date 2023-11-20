@@ -1,4 +1,4 @@
 #!/bin/sh
-# apply any uncommitted changes to HEAD
+## Apply any uncommitted changes to HEAD.
 
 git commit --amend -a -v --no-edit

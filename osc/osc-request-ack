@@ -1,5 +1,5 @@
 #!/bin/sh
-# accept given SR
+## Accept given SR
 
 if [ -z "$1" ]; then
 	echo "ERROR: $0 id"

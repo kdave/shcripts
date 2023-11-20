@@ -1,6 +1,6 @@
 #!/bin/sh
-# in a git tree, list files from the last commit (HEAD), offer a selection and
-# open in vim with the diff against HEAD^ (ie. the last changes to the file)
+## In a git tree, list files from the last commit (HEAD), offer a selection and
+## open in vim with the diff against HEAD^ (i.e. the last changes to the file).
 #
 # requires: fugitive-vim plugin
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-# create btrfs snapshot with a timestamp in name
+## Create btrfs snapshot with a timestamp in name.
 
 if ! [ -d "$1" ]; then
 	echo "$1 does not exist"

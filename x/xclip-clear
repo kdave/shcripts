@@ -1,4 +1,5 @@
 #!/bin/sh
+## Clear all X clipboards
 
 xclip -i -selection primary < /dev/null
 xclip -i -selection secondary < /dev/null

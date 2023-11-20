@@ -1,5 +1,5 @@
 #!/bin/sh
-# print lines between two markers, start included, end excluded
+## Print lines between two markers, start included, end excluded.
 
 awk "
 BEGIN { doprint=0; }

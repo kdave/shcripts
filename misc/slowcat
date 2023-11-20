@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+## Print input lines with a small delay (0.1s).
 
 $|++;
 while (($_=<>) ne '') {

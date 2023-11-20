@@ -1,5 +1,5 @@
 #!/bin/sh
-# show current branch name
+## Print current branch name.
 
 git_dir=$(git rev-parse --git-dir 2> /dev/null) || exit 1
 ref=$(git symbolic-ref HEAD 2> /dev/null) || exit 1
