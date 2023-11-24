@@ -1,0 +1,70 @@
+#!/bin/sh
+
+set -e
+
+qcow="$1"
+nbd=/dev/nbd7
+nbdbase=$(basename "$nbd")
+sudo=sudo
+out=img-$$.raw
+outqcow2=$(basename "$out" .raw).qcow2
+table=$out.table
+
+MSG() { echo === "$@"; }
+
+if grep "$nbdbase" /proc/partitions; then
+	echo "ERROR: found $nbd in partitions"
+	exit 1
+fi
+
+if ! [ -f "$qcow" ]; then
+	echo "ERROR: no qcow2 $qcow"
+	exit 1
+fi
+
+MSG open qcow as nbd
+$sudo qemu-nbd --discard=unmap -c "$nbd" "$qcow"
+MSG dump partition table
+$sudo sfdisk --dump "$nbd" > "$table"
+MSG read size of bdev
+sizekb=$(grep "$nbdbase"'$' /proc/partitions | awk '{print $3}')
+MSG create sparse file with size
+touch "$out"
+$sudo truncate -s${sizekb}k "$out"
+MSG losetup file "$out"
+lo=$($sudo losetup --show --find "$out")
+MSG copy bootsector, first 1M
+$sudo dd if="$nbd" of="$lo" bs=1M count=1 conv=sparse status=progress
+MSG copy partition
+$sudo sfdisk "$lo" < "$table"
+rm "$table"
+MSG close file
+$sudo losetup -d "$lo"
+MSG reopen file with partitions
+lo=$($sudo losetup --partscan --show --find "$out")
+MSG dd sparse all partitions to loop
+# TODO: map partitions in order of appearance, not by matching suffix
+for part in $(grep "${nbdbase}p[0-9]" /proc/partitions | awk '{print $4}'); do
+	pp=${part#$nbdbase}
+	mkdir -p mnt
+	btype=$($sudo blkid -s TYPE "/dev/$part" -o value)
+	if [ "$btype" = "swap" ]; then
+		MSG 'do' not copy swap, recreate
+		uuid=$(sudo blkid -s UUID "/dev/$part" -o value)
+		$sudo mkswap --uuid "$uuid" "$lo$pp"
+		continue
+	fi
+
+	if $sudo mount "/dev/$part" mnt; then
+		MSG fstrim $part before copying
+		$sudo fstrim -v mnt || true
+		$sudo umount mnt
+	fi
+	echo "copy /dev/$part to $lo$pp"
+	echo "dd if=/dev/$part of=$lo$pp bs=1M conv=sparse status=progress"
+	$sudo dd if="/dev/$part" of="$lo$pp" bs=1M conv=sparse status=progress
+done
+MSG close file
+$sudo losetup -d "$lo"
+MSG close nbd
+$sudo qemu-nbd -d "$nbd"

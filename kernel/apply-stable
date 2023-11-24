@@ -1,0 +1,105 @@
+#!/bin/sh
+#
+# ... = your path
+
+dir=.../linux-2.6
+seqdir=.../seq
+here=`pwd`
+version="$1"
+testapply=true
+docommit=true
+from="From: David Sterba <dsterba@suse.cz>"
+sob="Signed-off-by: David Sterba <dsterba@suse.cz>"
+
+cd "$dir"
+
+if ! git show v"$version" >& /dev/null; then
+	echo "Version $version does not exist in $dir"
+	exit 1
+fi
+
+function gitbranch() {
+	ref=$(git symbolic-ref HEAD 2> /dev/null) || exit 1
+	br=${ref#refs/heads/}
+	echo "$br"
+}
+
+prevprefix=${version%.*}
+prevsuffix=${version##*.}
+prevnum=$(($prevsuffix - 1))
+prevprevnum=$(($prevnum - 1))
+if [ $prevnum = 0 ]; then
+	prev=${prevprefix}
+else
+	prev=${prevprefix}.$prevnum
+fi
+echo "New version: $version"
+echo "Previous version: $prev"
+
+a=v$prev
+b=v$version
+
+patch=patches.kernel.org/patch-$version
+
+# Start of the block
+echo "$from
+Subject: Linux $version
+Patch-mainline: $version" > $here/$patch
+# End of the block
+for i in $(git rev-list $a..$b); do
+	echo "Git-commit: $i" >> $here/$patch
+done
+echo >> $here/$patch
+echo "$sob"  >> $here/$patch
+echo '---' >> $here/$patch
+
+git diff $a..$b >> $here/$patch
+echo "Patch: $patch"
+
+cd $here
+
+echo "Adding $patch to series"
+
+# patches.kernel.org/4.13.5-111-Linux-4.13.5.patch
+
+mv series.conf series.conf.orig
+awk "BEGIN{tryprint=0;}
+tryprint==1 && /patch-$version/ { tryprint=0; print; next; }
+tryprint==1 { print \"	$patch\\n\"; tryprint=0; next; }
+/patch-$prev/ { tryprint=1; }
+/patch-$prevprefix.$prevprevnum-$prevnum/ { tryprint=1; }
+/patches.kernel.org\/$prevprefix.$prevnum-.*Linux-$prevprefix.$prevnum/ { tryprint=1; }
+{print}" < series.conf.orig > series.conf
+
+if $testapply; then
+	if ! scripts/sequence-patch.sh -d "$seqdir"; then
+		echo
+		echo does not apply, no commit
+		echo
+		exit 1
+	fi
+fi
+
+branch=$(gitbranch)
+
+pushd `pwd`
+cd .../seq2/linux-*-$branch || { echo "bad"; exit 1; }
+./run_oldconfig.sh --yes
+popd
+
+git add $patch
+git add series.conf
+
+for i in config/*/*; do
+	if $(git diff "$i" | diffstat | grep -q "1 insertion(+), 1 deletion(-)"); then
+		git checkout -f "$i"
+		echo "No change in $i"
+	fi
+done
+
+git add config/*
+
+echo "Ready co commit"
+if $docommit; then
+	git commit -sa -m"Linux $version"
+fi

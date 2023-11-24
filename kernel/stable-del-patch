@@ -1,0 +1,12 @@
+#!/bin/sh
+# Delete patch name from series.conf (powered by ed(1))
+
+full=$(grep "$1" series.conf)
+echo "Full patch name: $full"
+
+git rm -f $full
+
+fname=$(basename "$full")
+fn=$(echo "$full" | tr '/' '.')
+
+echo -e "/${fn}\nd\nw\nq\n" | ed series.conf
