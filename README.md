@@ -24,6 +24,15 @@ Shortcut for unlimited make with ccache and icecream.
 Run the given make command but open the results in vim
 (same as saving make output and running vi -q output).
 
+## ccache
+[**cc**](cc):
+\
+[**cc++**](cc++):
+\
+[**g++**](g++):
+\
+[**gcc**](gcc):
+
 ## crypt
 [**device-create-cmd**](device-create-cmd):
 Set up a block device with dm-crypt (aes-xts-plain64/sha512)
@@ -46,6 +55,9 @@ Create symlinks for a given gcc & related tools version
 ## git
 [**bgrep**](bgrep):
 Grep in local git branches.
+\
+[**brandom**](brandom):
+Show first 4 random local branches
 \
 [**bsel**](bsel):
 Visual git branch selector (bgrep, dialog), then print the branch name.

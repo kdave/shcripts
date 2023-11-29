@@ -1,4 +1,9 @@
 #!/bin/sh
 ## Grep in local git branches.
 
-git branch | grep -i "$@"
+if [ "$1" == "-a" -o "$1" == "-r" ]; then
+	bflags="$1"
+	shift
+fi
+
+git branch $bflags | grep -i "$@"
