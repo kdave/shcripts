@@ -128,6 +128,9 @@ Reverse input, line by line and on each line (rev + tac).
 [**drop-caches**](drop-caches):
 Drop caches.
 \
+[**every**](every):
+Run the given command every time-spec, command error will not stop the loop, willue use 'sleepy' if available
+\
 [**pchown**](pchown):
 Preserve permissions on chown on a file.
 \

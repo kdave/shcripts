@@ -1,0 +1,22 @@
+#!/bin/sh
+## Run the given command every time-spec, command error will not stop the loop, willue use 'sleepy' if available
+# Usage: $0 timespec command...
+
+ts="$1"
+shift
+
+if type -p sleepy >&/dev/null; then
+	sleep=sleepy
+else
+	sleep=sleep
+fi
+
+if [ -z "$ts" ]; then
+	echo "ERROR: empty timespec"
+fi
+
+echo "Run: $@"
+while :; do
+	"$@"
+	$sleep "$ts"
+done
