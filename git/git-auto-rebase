@@ -1,0 +1,40 @@
+#!/bin/bash
+## Auto rebase topic branch on another one, look up a specific commit with marker
+
+# Find top commit with a given marker:
+# ... === name on base === ...
+# Will produce comand like:
+#
+# git rebase --onto base from
+#
+# where from commit is parent commit of the marker
+
+MARKER="=== .* ==="
+BASE=$(git log --merges -1 --format='%H')
+
+while read HASHSUBJ; do
+	COMMIT=${HASHSUBJ%%@*}
+	SUBJECT=${HASHSUBJ#*@}
+
+	if [[ $SUBJECT =~ ===\ .*\ === ]]; then
+	#if echo "$SUBJECT" | grep -q "$MARKER"; then
+		echo "Found marker commit: $SUBJECT"
+		top=$(git rev-parse --symbolic --abbrev-ref HEAD)
+		assumetop=$(echo "$SUBJECT" | sed -ne 's/.*=== \(.*\) on .* ===.*$/\1/p')
+		if [ "$top" != "$assumetop" ]; then
+			echo "ERROR: expected branch $assumetop but found $top"
+			exit 1
+		fi
+		onto=$(echo "$SUBJECT" | sed -ne 's/.*=== .* on \(.*\) ===.*$/\1/p')
+		from=$(git rev-parse "$COMMIT"^)
+		echo git rebase --onto "$onto" "$from"
+		echo "Run? [y/n]"
+		read -n 1 q < /dev/tty
+		if [ "$q" = 'y' ]; then
+			git rebase --onto "$onto" "$from"
+		fi
+		exit 0
+	fi
+done < <(git log --format="%H@%s" "$BASE"..HEAD)
+
+echo "No marker commit found"

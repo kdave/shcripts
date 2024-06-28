@@ -80,6 +80,9 @@ Git diff shortcut.
 [**gis**](gis):
 Git show shortcut.
 \
+[**git-auto-rebase**](git-auto-rebase):
+Auto rebase topic branch on another one, look up a specific commit with marker
+\
 [**git-br**](git-br):
 Print current branch name.
 \
