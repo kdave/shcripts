@@ -212,6 +212,9 @@ Open vim with coccigrep search, save temporary output for repeated calls
 NOTE: upstream coccigrep stopped working for some reason, this is a simpler
 version that does not find all occurences.
 \
+[**vicint**](vicint):
+Interactive C in vim (edit, compile)
+\
 [**vigrep**](vigrep):
 vim grep all *.[ch] files in current directory and open (:cNext/:cnext).
 \

@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+my $lines;
+my @files;
+while(<>) {
+        if(/Found \d+ duplicate.*following files:/) {
+                if(@files) {
+                        print("Duplicates in files:\n * ",join("\n * ", @files),"\n");
+                        print("$lines\n");
+                }
+                $lines='';
+                @files=();
+        } elsif (/Between lines (\d+) and (\d+) in (.*)$/) {
+                if(!@files) {
+                        open(F,"<$3") or die $!;
+                        my @c=<F>;
+                        close(F);
+                        $lines=join('', @c[$1-1..$2-1]);
+                }
+                push @files, "$3:$1";
+        }
+}
+if(@files) {
+        print("Duplicates in files:\n * ",join("\n * ", @files),"\n");
+        print("$lines\n");
+}

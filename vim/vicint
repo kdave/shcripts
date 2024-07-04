@@ -1,0 +1,33 @@
+#!/bin/sh
+## Interactive C in vim (edit, compile, run)
+#
+# Usage: $0 file.c
+#
+# - open a file and terminal
+# - wait until the file is changed (saved)
+# - run a command, default: compile and run
+#
+# Needs: innotifywait (from inotify-tools)
+
+if ! type -p inotifywait >& /dev/null; then
+	echo "ERROR: inotifywait not found"
+	exit 1
+fi
+
+fn="$1"
+if ! [ -f "$fn" ]; then
+	echo "File $fn does not exist, creating"
+	touch "$fn"
+fi
+out=$(basename "$fn" .c)-cint
+
+while :; do
+	# Multiple events are sent, the last one is DELETE_SELF
+	inotifywait -qq -e delete_self file.c
+	# Recreated file can be missing before the command starts
+	until [ -f file.c ]; do
+		sleep 0.5
+	done
+	echo "=== Compile $fn to $out"
+	gcc -o "$out" "$fn" && "./$out"
+done
