@@ -1,5 +1,5 @@
 #!/bin/sh
-## Run the given command every time-spec, command error will not stop the loop, willue use 'sleepy' if available
+## Run the given command every time-spec, command error will not stop the loop, willu use 'sleepy' if available
 # Usage: $0 timespec command...
 
 ts="$1"

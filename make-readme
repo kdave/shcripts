@@ -1,5 +1,5 @@
 #!/bin/sh
-# Generate README.md from the basic template and file descriptions
+## Generate README.md from the basic template and file descriptions
 
 exec > README.md
 
@@ -21,7 +21,7 @@ for file in */*; do
 	else
 		echo '\'
 	fi
-	#echo "**${fn}**:"
-	echo "[**${fn}**](${fn}):"
+	# [Text](link)
+	echo "[**${fn}**](${file}):"
 	grep '^##' < "$file" | sed 's/^##\s\+//'
 done
