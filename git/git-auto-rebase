@@ -29,7 +29,8 @@ while read HASHSUBJ; do
 		from=$(git rev-parse "$COMMIT"^)
 		echo git rebase --onto "$onto" "$from"
 		echo "Run? [y/n]"
-		read -n 1 q < /dev/tty
+		#read -n 1 q < /dev/tty
+		q='y'
 		if [ "$q" = 'y' ]; then
 			git rebase --onto "$onto" "$from"
 		fi
