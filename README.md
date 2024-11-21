@@ -3,6 +3,10 @@
 Random collection of scripts and snippets.
 
 
+## asm
+[**disas**](asm/disas):
+Prettyfier of objdump assembly (AT&T)
+
 ## btrfs
 [**bsdel**](btrfs/bsdel):
 Delete given btrfs subvolumes (as root).
@@ -43,6 +47,10 @@ Print histogram from data set (numbers).
 \
 [**lines-between**](data/lines-between):
 Print lines between two markers, start included, end excluded.
+
+## dosbox
+[**rundos**](dosbox/rundos):
+Run DOS executable in current directory, fullscreen
 
 ## fstests
 [**fstests-log**](fstests/fstests-log):
@@ -132,7 +140,7 @@ Reverse input, line by line and on each line (rev + tac).
 Drop caches.
 \
 [**every**](misc/every):
-Run the given command every time-spec, command error will not stop the loop, willu use 'sleepy' if available
+Run the given command every time-spec, command error will not stop the loop, will use 'sleepy' if available
 \
 [**pchown**](misc/pchown):
 Preserve permissions on chown on a file.
@@ -167,6 +175,13 @@ Wait until the given host is up and ready for ssh.
 \
 [**wgetcz**](net/wgetcz):
 Set preferred language to CZ and run wget.
+
+## ollama
+[**ollama-ls**](ollama/ollama-ls):
+List ollama models, sort by size, grep pattern
+\
+[**ollama-pull-all**](ollama/ollama-pull-all):
+Pull all ollama models
 
 ## osc
 [**osc-request-ack**](osc/osc-request-ack):

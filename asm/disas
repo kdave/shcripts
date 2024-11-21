@@ -1,0 +1,27 @@
+#!/bin/sh
+## Prettyfier of objdump assembly (AT&T)
+
+#objdump --disassembler-options=suffix --insn-width=12 --visualize-jumps=extended-color -dr "$@" | c++filt | less
+
+color='--disassembler-color=extended'
+jumps="--visualize-jumps=extended-color"
+insns="--insn-width=12"
+prefix=""
+default=""
+
+while getopts "cijp" arg; do
+	case "$arg" in
+		h)
+			echo "Usage: $0 [-cijp] objectfile"
+			exit
+			;;
+		c) color= ;;
+		i) insns="--no-show-raw-insn" ;;
+		j) jumps= ;;
+		p) prefix="--prefix-addresses" ;;
+	esac
+done
+shift $((OPTIND-1))
+
+objdump "$default" "$color" "$prefix" "$insns" "$jumps" \
+	-dr "$@" | c++filt | less

@@ -1,0 +1,4 @@
+#!/bin/sh
+## Run DOS executable in current directory, fullscreen
+
+dosbox -fullscreen -c "mount c: \"`pwd`\"" -c "c:" ${1:+-c "$1"} -c 'exit'

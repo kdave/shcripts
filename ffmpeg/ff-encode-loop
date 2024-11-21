@@ -68,7 +68,7 @@ convert_file() {
 	fi
 	echo "ENCODING: start"
 	# create the file in current directory, move later
-	rm -- "$outtmp"
+	rm -f -- "$outtmp"
 	ffmpeg -hide_banner -i "$in" -c:v "$codec" -crf "$crf" -c:a libmp3lame -q:a 2 "$outtmp"
 	ret=$?
 	if [ $? = 0 ]; then
@@ -77,9 +77,9 @@ convert_file() {
 		ln -s -- "$outpath" "$out"
 	else
 		echo "FINISHED: error $ret"
-		rm -- "$outtmp"
+		rm -f -- "$outtmp"
 	fi
-	touch "$out"
+	touch --reference="$file" "$out"
 
 	return 1
 }

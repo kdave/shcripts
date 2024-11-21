@@ -1,0 +1,7 @@
+#!/bin/sh -x
+## Pull all ollama models
+
+for net in $( ollama list | tail -n +2 | awk '{print $1}'); do
+	echo "Pull: $net"
+	ollama pull "$net"
+done

@@ -6,6 +6,7 @@ fftimes=$(dirname "$fftimes")/ff-times
 for f in *; do
 	fext="${f}.x265.mp4"
 	[ -f "$fext" ] || continue
+	echo "FILE: $f"
 	"$fftimes" "$f"
 	echo
 done

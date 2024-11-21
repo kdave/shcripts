@@ -8,8 +8,8 @@ if [ "$1" = "-nosub" ]; then
 fi
 
 in="$1"
-out="$1".x265.mp4
-outtmp="$1".tmp.x265.mp4
+out="$1".x265.mkv
+outtmp="$1".tmp.x265.mkv
 shift
 
 codec=libx265
@@ -21,7 +21,7 @@ if [ -z "$in" ]; then
 fi
 
 #ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 -c:s copy -c:d copy -c:t copy -map 0 "$outtmp"
-ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 $codecmap -strict -1 -map 0 "$outtmp"
+ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 $codecmap -map 0 "$outtmp"
 ret=$?
 if [ $ret = 0 ]; then
 	echo "Conversion ok, renaming"
