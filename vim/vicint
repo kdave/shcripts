@@ -23,9 +23,9 @@ out=$(basename "$fn" .c)-cint
 
 while :; do
 	# Multiple events are sent, the last one is DELETE_SELF
-	inotifywait -qq -e delete_self file.c
+	inotifywait -qq -e delete_self "$fn"
 	# Recreated file can be missing before the command starts
-	until [ -f file.c ]; do
+	until [ -f "$fn" ]; do
 		sleep 0.5
 	done
 	echo "=== Compile $fn to $out"
