@@ -5,7 +5,7 @@ Random collection of scripts and snippets.
 
 ## asm
 [**disas**](asm/disas):
-Prettyfier of objdump assembly (AT&T)
+Prettyfier of objdump assembly (AT&T, nice line graphics)
 
 ## btrfs
 [**bsdel**](btrfs/bsdel):

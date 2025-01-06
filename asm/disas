@@ -1,6 +1,7 @@
 #!/bin/sh
-## Prettyfier of objdump assembly (AT&T)
+## Prettyfier of objdump assembly (AT&T, nice line graphics)
 
+# One-liner:
 #objdump --disassembler-options=suffix --insn-width=12 --visualize-jumps=extended-color -dr "$@" | c++filt | less
 
 color='--disassembler-color=extended'
@@ -23,5 +24,21 @@ while getopts "cijp" arg; do
 done
 shift $((OPTIND-1))
 
+# https://symbl.cc/en/unicode/blocks/box-drawing/
+# !separation matters, order matters!
 objdump "$default" "$color" "$prefix" "$insns" "$jumps" \
-	-dr "$@" | c++filt | less
+	-dr "$@" | c++filt |
+	sed -e 's/\/-/┌─/' |
+	sed -e 's/\/\([^m]*m\)-/┌\1─/' |
+	sed -e 's/\\/└/g' |
+	sed -e 's/|/│/g' |
+	sed -e 's/->/─>/' |
+	sed -e 's/-\([^m]*m\)>/─\>/' |
+	sed -e 's/---/───/g' |
+	sed -e 's/--/──/g' |
+	sed -e 's/─-/──/' |
+	sed -e 's/─\([^m]*m\)-/─\1─/g' |
+	sed -e 's/-\([^m]*m\)-/─\1─/g' |
+	sed -e 's/+─/├─/' |
+	sed -e 's/+\([^m]*m\)─/├\1─/' |
+	less
