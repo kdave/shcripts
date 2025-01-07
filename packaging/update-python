@@ -3,7 +3,7 @@
 ## and install them on current one (3.11)
 
 target=311
-from=${1:-38 39 310 311}
+from=${1:-38 39 310 311 312}
 
 todo=""
 
