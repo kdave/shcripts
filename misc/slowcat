@@ -4,5 +4,5 @@
 $|++;
 while (($_=<>) ne '') {
 	print;
-	`sleep 0.1`;
+	select(undef, undef, undef, 0.1);
 }

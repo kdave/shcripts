@@ -28,17 +28,17 @@ shift $((OPTIND-1))
 # !separation matters, order matters!
 objdump "$default" "$color" "$prefix" "$insns" "$jumps" \
 	-dr "$@" | c++filt |
-	sed -e 's/\/-/┌─/' |
-	sed -e 's/\/\([^m]*m\)-/┌\1─/' |
-	sed -e 's/\\/└/g' |
+	sed -e 's/\s+[\/,]-/┌─/' |
+	sed -e 's/\s+[\/,]\([^m]*m\)-/┌\1─/' |
+	sed -e "s/[\\']/└/g" |
 	sed -e 's/|/│/g' |
-	sed -e 's/->/─>/' |
-	sed -e 's/-\([^m]*m\)>/─\>/' |
 	sed -e 's/---/───/g' |
 	sed -e 's/--/──/g' |
-	sed -e 's/─-/──/' |
+	sed -e 's/─-/──/g' |
 	sed -e 's/─\([^m]*m\)-/─\1─/g' |
 	sed -e 's/-\([^m]*m\)-/─\1─/g' |
-	sed -e 's/+─/├─/' |
-	sed -e 's/+\([^m]*m\)─/├\1─/' |
+	sed -e 's/->/─>/' |
+	sed -e 's/-\([^m]*m\)>/─\>/' |
+	sed -e 's/[+>]─/├─/' |
+	sed -e 's/[+>]\([^m]*m\)─/├\1─/' |
 	less
