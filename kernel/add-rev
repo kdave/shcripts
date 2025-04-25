@@ -60,6 +60,8 @@ elif [ "$1" = 'mason' ] ; then
 	rev='Reviewed-by: Chris Mason <clm@fb.com>'
 elif [ "$1" = 'neal' ] ; then
 	rev='Reviewed-by: Neal Gompa <neal@gompa.dev>'
+elif [ "$1" = 'dan' ] ; then
+	rev='Reviewed-by: Daniel Vacek <neelx@suse.com>'
 else
 	echo "ERROR: Unrecognized name: $1"
 	exit 1
