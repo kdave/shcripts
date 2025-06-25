@@ -1,7 +1,7 @@
 #!/bin/sh
 ## Show first 4 random local branches
 
-n=4
+n=14
 g=''
 
 if [ -z "$1" ]; then

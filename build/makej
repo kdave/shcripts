@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Enabling icecream build"
+#PATH="/usr/lib/icecc/bin:$PATH"
+PATH="/usr/libexec/icecc/bin:$PATH"
+which gcc
+make "$@"

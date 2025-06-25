@@ -2,7 +2,7 @@
 ## Convenient way to update python packages that exist on lower version,
 ## and install them on current one (3.11)
 
-target=311
+target=313
 from=${1:-38 39 310 311 312}
 
 todo=""

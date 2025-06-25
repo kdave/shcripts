@@ -1,0 +1,7 @@
+#!/bin/sh
+export CCACHE_DIR=$HOME/.ccache
+echo "Enabling ccache build ($CCACHE_DIR)"
+#PATH="$HOME/bin/ccache:$PATH"
+PATH="/usr/lib64/ccache:$PATH"
+ccache -s
+make "$@"
