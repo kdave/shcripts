@@ -1,10 +1,12 @@
 #!/bin/sh
 
+set -e
+
 jobs=8
 make=make
 
 if pgrep iceccd >& /dev/null && type -p makejc >&/dev/null; then
-	jobs=64
+	jobs=72
 	make=makejc
 fi
 
@@ -20,7 +22,7 @@ echo "KBUILD: install"
 make modules modules_install install
 
 echo "KBUILD: update bootloader"
-rm /boot/*.old
+rm -f /boot/*.old
 update-bootloader
 type -p grubonce >& /dev/null && grubonce
 
