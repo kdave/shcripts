@@ -1,0 +1,27 @@
+#!/bin/sh
+
+jobs=8
+make=make
+
+if pgrep iceccd >& /dev/null && type -p makejc >&/dev/null; then
+	jobs=64
+	make=makejc
+fi
+
+if ! type -p /usr/sbin/installkernel >&/dev/null; then
+	echo "ERROR: you don't have installkernel"
+	exit 1
+fi
+
+echo "KBUILD: with $make -j $jobs"
+$make -j $jobs
+
+echo "KBUILD: install"
+make modules modules_install install
+
+echo "KBUILD: update bootloader"
+rm /boot/*.old
+update-bootloader
+type -p grubonce >& /dev/null && grubonce
+
+echo "KBUILD: check your next boot"
