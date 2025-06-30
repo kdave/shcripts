@@ -194,6 +194,16 @@ add_file ()
                    fi
                  done
                  ;;
+	       */*/zlib-ng-compat/*)
+		 # FIXME - copied twice
+		 # /usr/lib64/zlib-ng-compat/libz.so.1.3.1.zlib-ng
+		 local lib_non_ng_compat=$(echo "$lib" | sed 's,/.*/\(.*\)/zlib-ng-compat/,/\1/,')
+		 # /lib64/libz.so.1
+		 local lib_basename=${lib##*/}
+		 if [ "$lib" != "$lib_non_ng_compat" ] && [ -f "$lib_non_ng_compat" ]; then
+		   add_file "$lib_non_ng_compat"
+		 fi
+		 ;;
                *)
                  continue
                  ;;
