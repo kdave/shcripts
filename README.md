@@ -37,15 +37,6 @@ Make with ccache + icecream
 Run the given make command but open the results in vim
 (same as saving make output and running vi -q output).
 
-## ccache
-[**cc**](ccache/cc):
-\
-[**cc++**](ccache/cc++):
-\
-[**g++**](ccache/g++):
-\
-[**gcc**](ccache/gcc):
-
 ## crypt
 [**device-create-cmd**](crypt/device-create-cmd):
 Set up a block device with dm-crypt (aes-xts-plain64/sha512)
