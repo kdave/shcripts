@@ -1,0 +1,7 @@
+#!/bin/sh
+## Show what's in X clipboards
+
+for i in primary secondary clipboard; do
+	echo -n $i: "`xclip -o -selection $i`"
+	echo
+done

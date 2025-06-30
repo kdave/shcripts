@@ -1,7 +1,12 @@
 #!/bin/sh
+## Make with icecream
 echo "Enabling icecream build"
-#PATH="/usr/lib/icecc/bin:$PATH"
-PATH="/usr/libexec/icecc/bin:$PATH"
+if [ -d "/usr/libexec/icecc/bin" ]; then
+	PATH="/usr/libexec/icecc/bin:$PATH"
+elif [- d "/usr/lib/icecc/bin" ]; then
+	PATH="/usr/lib/icecc/bin:$PATH"
+else
+	echo "WARNING: icecream not installed or bin path not found"
+fi
 which gcc
-which g++
 make "$@"

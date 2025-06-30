@@ -1,0 +1,4 @@
+#!/bin/sh
+## Find files with grep (case insensitive)
+
+find | grep -i "$1"

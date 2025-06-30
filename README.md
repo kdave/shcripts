@@ -24,6 +24,15 @@ Shortcut for unlimited make with icecream.
 [**jjc**](build/jjc):
 Shortcut for unlimited make with ccache and icecream.
 \
+[**makec**](build/makec):
+Make with ccache
+\
+[**makej**](build/makej):
+Make with icecream
+\
+[**makejc**](build/makejc):
+Make with ccache + icecream
+\
 [**makev**](build/makev):
 Run the given make command but open the results in vim
 (same as saving make output and running vi -q output).
@@ -47,6 +56,9 @@ Print histogram from data set (numbers).
 \
 [**lines-between**](data/lines-between):
 Print lines between two markers, start included, end excluded.
+\
+[**sort-by-length**](data/sort-by-length):
+Sort stdin lines by length
 
 ## dosbox
 [**rundos**](dosbox/rundos):
@@ -119,6 +131,9 @@ Edit given commit, run 'add-rev name' and edit to fixup things
 then go back.
 
 ## log
+[**dstat**](log/dstat):
+Dstat output compatibility for dool
+\
 [**gluelog.pl**](log/gluelog.pl):
 Glue together lines from dmesg that got wrapped due to text width.
 \
@@ -142,11 +157,23 @@ Drop caches.
 [**every**](misc/every):
 Run the given command every time-spec, command error will not stop the loop, will use 'sleepy' if available
 \
+[**fastrand**](misc/fastrand):
+Generate a lot of pseudo-random data faster than /dev/random or /dev/urandom (openssl)
+\
+[**findi**](misc/findi):
+Find files with grep (case insensitive)
+\
+[**nytimebig**](misc/nytimebig):
+Date, time, big letters (figlet)
+\
+[**nytimer**](misc/nytimer):
+Date, time
+\
 [**pchown**](misc/pchown):
 Preserve permissions on chown on a file.
 \
 [**set-kbdrate**](misc/set-kbdrate):
-In X, set delay and repeat rate for maximum productivity.
+In X, set delay and repeat rate for maximum productivity (delay 170, repeat 70)
 \
 [**setperm**](misc/setperm):
 Fix write permission on all files and directories.
@@ -165,6 +192,9 @@ Time delta between two timestamps.
 \
 [**waitpid**](misc/waitpid):
 Wait until a given pid exits (poll).
+\
+[**watch-hdd**](misc/watch-hdd):
+Watch HDD temperatures
 
 ## net
 [**waitping**](net/waitping):
@@ -253,3 +283,6 @@ Generate syntax highlighted .xhtml of the given file.
 ## x
 [**xclip-clear**](x/xclip-clear):
 Clear all X clipboards
+\
+[**xclip-what**](x/xclip-what):
+Show what's in X clipboards

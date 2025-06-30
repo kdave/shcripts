@@ -1,0 +1,4 @@
+#!/bin/sh
+## Sort stdin lines by length
+
+perl -ne 'print sort { length <=> length or cmp } <STDIN>'

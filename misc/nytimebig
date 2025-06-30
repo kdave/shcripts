@@ -1,0 +1,12 @@
+#!/bin/sh
+## Date, time, big letters (figlet)
+
+IFS=''
+while :; do
+	read -n 1 -t 0.2 tmp
+	end=`date +'%F %T.%3N'`
+	clear
+	echo "DATE: $end -> $back"
+	figlet -d /usr/share/figlet/contributed -f doh -w $COLUMNS -l "$end"
+	[ -z "$tmp" ] || break
+done

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Watch disk temperatures
+## Watch HDD temperatures
 
 sl=60
 rep=30

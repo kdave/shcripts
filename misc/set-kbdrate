@@ -1,5 +1,5 @@
 #!/bin/sh
-## In X, set delay and repeat rate for maximum productivity.
+## In X, set delay and repeat rate for maximum productivity (delay 170, repeat 70)
 
 #[ -z "$DISPLAY" ] || xset r rate 200 50
 [ -z "$DISPLAY" ] || xset r rate 170 70

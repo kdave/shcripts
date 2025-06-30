@@ -1,0 +1,4 @@
+#!/usr/bin
+## Dstat output compatibility for dool
+
+dool --bytes -cdngy

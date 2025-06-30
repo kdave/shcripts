@@ -1,0 +1,4 @@
+#!/bin/sh
+## Generate a lot of pseudo-random data faster than /dev/random or /dev/urandom (openssl)
+
+openssl enc -pbkdf2 -nosalt -aes-256-cbc -nopad -pass pass:"$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64)" < /dev/zero
