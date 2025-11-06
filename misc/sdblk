@@ -1,0 +1,4 @@
+#!/bin/sh
+## Show only *sdx* devices, no NVMe and such
+
+lsblk "$@" | grep sd

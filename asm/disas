@@ -30,6 +30,7 @@ objdump "$default" "$color" "$prefix" "$insns" "$jumps" \
 	-dr "$@" | c++filt |
 	sed -e 's/\s+[\/,]-/┌─/' |
 	sed -e 's/\s+[\/,]\([^m]*m\)-/┌\1─/' |
+	sed -e 's/\([^m]*m\),\([^m]*m\)/\1┌\2/' |
 	sed -e "s/[\\']/└/g" |
 	sed -e 's/|/│/g' |
 	sed -e 's/---/───/g' |
@@ -41,4 +42,5 @@ objdump "$default" "$color" "$prefix" "$insns" "$jumps" \
 	sed -e 's/-\([^m]*m\)>/─\>/' |
 	sed -e 's/[+>]─/├─/' |
 	sed -e 's/[+>]\([^m]*m\)─/├\1─/' |
+	sed -e 's/m,/mY/' |
 	less

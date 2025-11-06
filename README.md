@@ -163,6 +163,9 @@ Date, time
 [**pchown**](misc/pchown):
 Preserve permissions on chown on a file.
 \
+[**sdblk**](misc/sdblk):
+Show only *sdx* devices, no NVMe and such
+\
 [**set-kbdrate**](misc/set-kbdrate):
 In X, set delay and repeat rate for maximum productivity (delay 170, repeat 70)
 \

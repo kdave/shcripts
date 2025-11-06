@@ -1,4 +1,8 @@
-#!/usr/bin
+#!/bin/sh
 ## Dstat output compatibility for dool
 
-dool --bytes -cdngy
+if [ -z "$1" ]; then
+	dool --bytes -cdngymr
+else
+	dool --bytes "$@"
+fi
