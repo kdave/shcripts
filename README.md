@@ -8,6 +8,10 @@ Random collection of scripts and snippets.
 Prettyfier of objdump assembly (AT&T, nice line graphics)
 
 ## btrfs
+[**bg2str.py**](btrfs/bg2str.py):
+Parse hexadecimal value of a btrfs block group type/flags and print the
+textual information; no validation, just the bits.
+\
 [**bsdel**](btrfs/bsdel):
 Delete given btrfs subvolumes (as root).
 \

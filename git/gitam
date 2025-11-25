@@ -4,6 +4,8 @@ patch=`cat`
 edit=false
 arg1="$1"
 arg2="$2"
+verify=--no-verify
+verify=
 shift
 shift
 
@@ -70,6 +72,6 @@ if $edit; then
 	patch=`cat "$tmpfile"`
 	rm -- "$tmpfile"
 fi
-echo "$patch" | git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE am -s --reject "$@" -
+echo "$patch" | git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE am -s --reject $verify "$@" -
 # with message-id
 #echo "$patch" | git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE am -m -s --reject "$@" -
