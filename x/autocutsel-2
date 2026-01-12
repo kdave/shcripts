@@ -1,0 +1,5 @@
+#!/bin/sh
+## Duplicate selection to clipboard.
+
+autocutsel -selection PRIMARY -buttonup -fork
+autocutsel -selection CLIPBOARD -buttonup -fork

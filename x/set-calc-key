@@ -1,0 +1,7 @@
+#!/bin/sh
+## Remap Calculator key to Backspace on Genius Luxmate 110 USB
+
+# Print keymap, look for key
+# xmodmap -pk
+
+xmodmap -e "keycode 148 = BackSpace"

@@ -279,6 +279,12 @@ make output.
 Generate syntax highlighted .xhtml of the given file.
 
 ## x
+[**autocutsel-2**](x/autocutsel-2):
+Duplicate selection to clipboard.
+\
+[**set-calc-key**](x/set-calc-key):
+Remap Calculator key to Backspace on Genius Luxmate 110 USB
+\
 [**xclip-clear**](x/xclip-clear):
 Clear all X clipboards
 \

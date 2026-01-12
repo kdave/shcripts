@@ -32,11 +32,15 @@ while :; do
 			echo "quit"
 			exit 0
 		elif [ "$ch" = '+' ]; then
-			echo "increase by 10s"
+			#echo "increase by 10s"
+			echo -e '\r'
 			t=$(($t + 10 - 1))
 		elif [ "$ch" = '-' ]; then
-			echo "decrease by 10s"
+			#echo "decrease by 10s"
+			echo -e '\r'
 			t=$(($t - 10 - 1))
+		elif [ "$ch" = '?' ]; then
+			echo -e '+ increase by 10s\n- decrease by 10s\nq quit'
 		fi
 		t=$(($t + 1))
 	fi
