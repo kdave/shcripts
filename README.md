@@ -8,6 +8,9 @@ Random collection of scripts and snippets.
 Prettyfier of objdump assembly (AT&T, nice line graphics)
 
 ## btrfs
+[**bchunks**](btrfs/bchunks):
+Shortcut to list chunks, sorted by usage
+\
 [**bg2str.py**](btrfs/bg2str.py):
 Parse hexadecimal value of a btrfs block group type/flags and print the
 textual information; no validation, just the bits.
@@ -15,8 +18,17 @@ textual information; no validation, just the bits.
 [**bsdel**](btrfs/bsdel):
 Delete given btrfs subvolumes (as root).
 \
+[**bsls**](btrfs/bsls):
+Shortcut to list subvolumes
+\
+[**bsnap**](btrfs/bsnap):
+Shortcut to create snapshot of a subvolume.
+\
 [**bstime**](btrfs/bstime):
 Create btrfs snapshot with a timestamp in name.
+\
+[**bsync**](btrfs/bsync):
+Shortcut to 'btrfs subvolume sync' of a given path.
 \
 [**gen-dump-image**](btrfs/gen-dump-image):
 Template to generate textual dump of image of filesystem.
@@ -65,7 +77,7 @@ Quick scan of dmesg or given log file for fstests and warning/bug messages.
 
 ## gcc
 [**inst-gcc-links**](gcc/inst-gcc-links):
-Create symlinks for a given gcc & related tools version
+Create symlinks for a given version of gcc and related tools.
 
 ## git
 [**bgrep**](git/bgrep):
@@ -143,7 +155,7 @@ Print slab info with aligned columns, also can filter by slab name.
 Reverse input, line by line and on each line (rev + tac).
 \
 [**tscat**](log/tscat):
-'timestamped cat', prepend a timestamp to each line.
+Timestamped cat, prepend a timestamp to each line.
 
 ## misc
 [**drop-caches**](misc/drop-caches):
@@ -157,6 +169,12 @@ Generate a lot of pseudo-random data faster than /dev/random or /dev/urandom (op
 \
 [**findi**](misc/findi):
 Find files with grep (case insensitive)
+\
+[**grepi**](misc/grepi):
+Shortcut to grep -ir
+\
+[**grepir**](misc/grepir):
+Shortcut to grep -ir
 \
 [**nytimebig**](misc/nytimebig):
 Date, time, big letters (figlet)
@@ -184,6 +202,9 @@ Interactive sleep:
 \
 [**slowcat**](misc/slowcat):
 Print input lines with a small delay (0.1s).
+\
+[**slowcat10**](misc/slowcat10):
+Print input lines with a small delay (0.1s) bursts of 20, interactive.
 \
 [**tdelta**](misc/tdelta):
 Time delta between two timestamps.
@@ -235,8 +256,20 @@ Install a few testing packages.
 [**tigh**](tig/tigh):
 Open arg in tig.
 \
+[**tigm**](tig/tigm):
+Open commits from current branch not in master.
+\
+[**tig-mergenew**](tig/tig-mergenew):
+Show changes since the merge base.
+\
+[**tigmn**](tig/tigmn):
+Open commits from current branch not in misc-next.
+\
 [**tigs**](tig/tigs):
 Shortcut for tig status.
+\
+[**tig-tag**](tig/tig-tag):
+Show changes from last tag until current HEAD.
 
 ## tmux
 [**foursquares**](tmux/foursquares):
@@ -244,7 +277,7 @@ Create layout with four 50% squares.
 \
 [**newp**](tmux/newp):
 Split panel, 2 lines at the bottom just to see the command but not the output,
-exit afterwards
+exit afterwards.
 \
 [**owntmux**](tmux/owntmux):
 Capture the named session.

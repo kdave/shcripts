@@ -8,3 +8,5 @@ fi
 
 ts=$(date +%F-%T)
 sudo btrfs subvol snapshot "$1" "$1"-$ts || exit 1
+sudo chown --reference=$from $to
+sudo chmod --reference=$from $to

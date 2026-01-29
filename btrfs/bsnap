@@ -1,0 +1,20 @@
+#!/bin/sh
+## Shortcut to create snapshot of a subvolume.
+
+[ $UID = 0 ] || sudo=sudo
+
+if [ $1 = '-r' ]; then
+	args=-r
+	shift
+fi
+
+from=$1
+shift
+
+to=$1
+shift
+
+echo Snapshot $args $from to $to
+$sudo btrfs subvolume snapshot $args $from $to
+$sudo chown --reference=$from $to
+$sudo chmod --reference=$from $to

@@ -1,4 +1,4 @@
 #!/bin/sh
-# open commits from current branch not in master
+## Open commits from current branch not in master.
 
-tig master..$1
+tig master.."$1"

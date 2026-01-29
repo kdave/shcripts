@@ -1,2 +1,4 @@
 #!/bin/sh
-exec tig `git merge-base "$1"`.."$1"
+## Show changes since the merge base.
+
+tig `git merge-base "$1"`.."$1"

@@ -1,7 +1,8 @@
 #!/bin/sh
 ## Split panel, 2 lines at the bottom just to see the command but not the output,
-## exit afterwards
+## exit afterwards.
 
 pwd=`pwd`
 cmd="$@"
-tmux splitw -v -d -p 2 "echo PWD: '$pwd' CMD: '$cmd'; $@"
+# Must be $* due to wide "..."
+tmux splitw -v -d -l 2 "echo PWD: '$pwd' CMD: '$cmd'; $*"

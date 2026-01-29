@@ -1,0 +1,107 @@
+#!/usr/bin/perl
+## Print input lines with a small delay (0.1s) bursts of 20, interactive.
+#
+# Usage tip: find . -name 'mask' | shuf | xargs --open-tty slowcat10
+# q     - quit
+# space - pause/unpause
+# a     - list remaining files (arguments)
+# n     - go to next file
+# f     - print filename
+
+use Term::ANSIColor;
+use Term::ReadKey;
+
+ReadMode 4; # raw
+
+my $burst = 20;
+my $delay = 5;
+my $left = $burst;
+my $lastdelay = 0;
+my $announcefile = 1;
+my $key;
+
+$|++;
+while (($_=<>) ne '') {
+	if ($announcefile) {
+		print colored("File: $ARGV", "green");
+		print color("reset");
+		print("\n");
+		$announcefile = 0;
+	}
+	# Preserve remaining delay between loops
+	if ($lastdelay == 0) {
+		print colored(sprintf("%3d", $.), "dark white");
+		print color("reset");
+		print colored("  " . $_, "bold white");
+		print color("reset");
+		select(undef, undef, undef, 0.01);
+	}
+	$key = ReadKey(-1);
+	if (defined $key) {
+		# Go handle the key
+	} elsif (--$left <= 0) {
+		# Low latency
+		my $multiplier = 4;
+		$lastdelay = $delay * $multiplier;
+		# Set before the loop so the rest of the delay is preserved for
+		# the next main loop
+		$left = $burst;
+		while (--$lastdelay > 0) {
+			$key = ReadKey(-1);
+			last if (defined $key);
+			select(undef, undef, undef, 1/$multiplier);
+		}
+	}
+	if (defined $key) {
+		if ($key eq ' ') {
+			print colored("Paused, press Space to continue or 'q' to quit", "green");
+			print color("reset");
+			print("\n");
+			while ($key ne 'q') {
+				$key = ReadKey(-1);
+				if (defined $key) {
+					if ($key eq ' ') {
+						# Print the next burst
+						$lastdelay = 0;
+						last;
+					}
+					last if ($key eq 'q');
+				}
+				select(undef, undef, undef, 1/3);
+			}
+		}
+
+		if ($key eq 'q') {
+			print colored("Bye", "green");
+			print color("reset");
+			# Colored newline leaves colored cursor
+			print("\n");
+			last;
+		}
+
+		if ($key eq 'f') {
+			print colored("File: $ARGV", "green");
+			print color("reset");
+			print("\n");
+		}
+
+		if ($key eq 'n') {
+			print colored("Go to next file (current: $ARGV)", "green");
+			print color("reset");
+			print("\n");
+			close ARGV;
+			$announcefile = 1;
+			$lastdelay = 0;
+		}
+
+		if ($key eq 'a') {
+			print colored("ARGV: @ARGV", "green");
+			print color("reset");
+			print("\n");
+		}
+	}
+}
+
+END {
+	ReadMode 0;
+}

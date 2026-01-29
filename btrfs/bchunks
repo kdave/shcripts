@@ -1,0 +1,4 @@
+#!/bin/sh
+## Shortcut to list chunks, sorted by usage
+
+sudo btrfs inspect-internal list-chunks --sort=usage "${1:-.}" | less

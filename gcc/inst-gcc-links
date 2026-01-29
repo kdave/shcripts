@@ -1,5 +1,5 @@
 #!/bin/sh
-## Create symlinks for a given gcc & related tools version
+## Create symlinks for a given version of gcc and related tools.
 
 if [ -z "$1" ]; then
 	echo "Usage: $0 version"
@@ -20,4 +20,3 @@ done
 
 [ -f "g++" ] && ln -s g++ c++
 [ -f "gcc" ] && ln -s gcc cc
-

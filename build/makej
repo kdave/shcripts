@@ -1,5 +1,6 @@
 #!/bin/sh
 ## Make with icecream
+
 echo "Enabling icecream build"
 if [ -d "/usr/libexec/icecc/bin" ]; then
 	PATH="/usr/libexec/icecc/bin:$PATH"

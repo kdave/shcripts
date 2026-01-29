@@ -1,0 +1,4 @@
+#!/bin/sh
+## Shortcut to 'btrfs subvolume sync' of a given path.
+
+sudo btrfs subvolume sync "${1:-.}"

@@ -1,5 +1,6 @@
 #!/bin/sh
 ## Wait until the given host is up and ready for ssh.
+#
 # Usage: $0 host command
 
 cnt=1

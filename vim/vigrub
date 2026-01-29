@@ -1,4 +1,4 @@
 #!/bin/sh
 ## Edit grub1 config as root.
 
-exec sudo vim /boot/grub/menu.lst
+sudo vim /boot/grub/menu.lst

@@ -1,0 +1,4 @@
+#!/bin/sh
+## Shortcut to list subvolumes
+
+sudo btrfs subvol list "$@"

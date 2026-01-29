@@ -1,4 +1,4 @@
 #!/bin/sh
-# open commits from current branch not in misc-next
+## Open commits from current branch not in misc-next.
 
-tig misc-next..$1
+tig misc-next.."$1"

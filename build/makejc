@@ -1,5 +1,6 @@
 #!/bin/sh
 ## Make with ccache + icecream
+
 export CCACHE_DIR=$HOME/.ccache
 export CCACHE_PREFIX=icecc
 echo "Enabling ccache + icecream build ($CCACHE_DIR)"
