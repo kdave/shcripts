@@ -1,0 +1,57 @@
+#!/bin/sh
+## Try applying a commit to stable branches (git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git)
+# Tip: create worktree in /dev/shm
+
+# Update as necessary (branches remotes/stable/linux-4.0.y)
+s='6.18 6.12 6.6 6.1 5.15'
+ok=
+bad=
+abortonbad=true
+quiet=--quiet
+
+if ! [ -z "$2" ]; then
+	s="$2"
+	echo "STABLE: check only $s"
+	abortonbad=false
+fi
+
+if [ -z "$1" ]; then
+	if ! [ -z "$2" ]; then
+		echo "STABLE: checkout latest $2"
+		git reset --hard
+		git checkout -f
+		git checkout $quiet -f remotes/stable/linux-${2}.y
+		exit
+	fi
+	echo "STABLE: no args"
+	exit
+fi
+
+for i in $s; do
+	echo STABLE: $i
+
+	b=remotes/stable/linux-${i}.y
+
+	git reset --hard
+	git checkout -f
+
+	git checkout $quiet -f $b
+	if git cherry-pick "$1"; then
+		echo -e "\e[32mSTABLE: $i OK -- $1\e[39m"
+		ok="$ok $i"
+	else
+		echo -e "\e[31mSTABLE: $i BAD -- $1\e[39m"
+		bad="$bad $i"
+		# save diffs if you need to debug further, normally git
+		# mergetool is sufficient
+		# { git diff ; git diff --cached; } > z-stable-${i}-${1}.diff
+		if $abortonbad; then
+			git cherry-pick --abort
+		fi
+	fi
+	echo -e "\e[36mSTABLE OK:$ok\e[39m"
+	echo -e "\e[36mSTABLE BAD:$bad\e[39m"
+done
+
+echo "STABLE OK: $ok"
+echo "STABLE BAD: $bad"

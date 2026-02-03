@@ -7,6 +7,6 @@ if ! [ -d "$1" ]; then
 fi
 
 ts=$(date +%F-%T)
-sudo btrfs subvol snapshot "$1" "$1"-$ts || exit 1
-sudo chown --reference=$from $to
-sudo chmod --reference=$from $to
+sudo btrfs subvolume snapshot "$1" "$1"-$ts || exit 1
+sudo chown --reference="$from" "$to"
+sudo chmod --reference="$from" "$to"

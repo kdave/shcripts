@@ -1,0 +1,22 @@
+#!/bin/sh
+## Wait until telnet connection to host:port show up.
+
+h="$1"
+p="$2"
+
+function fwait() {
+	while ! nc -z "$h" "$p"; do
+		sleep 1
+	done
+}
+
+function fconn() {
+	telnet "$h" "$p"
+	# give ctrl-c a chance
+	sleep 1
+}
+
+while :; do
+	fwait
+	fconn
+done

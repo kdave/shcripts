@@ -136,6 +136,9 @@ Add reviewed-by tag from known people to the right location to the top commit.
 [**add-rev-to**](kernel/add-rev-to):
 Edit given commit, run 'add-rev name' and edit to fixup things
 then go back.
+\
+[**stable-test-apply**](kernel/stable-test-apply):
+Try applying a commit to stable branches (git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git)
 
 ## log
 [**dstat**](log/dstat):
@@ -221,6 +224,9 @@ Wait until the given host responds to pings.
 \
 [**waitssh**](net/waitssh):
 Wait until the given host is up and ready for ssh.
+\
+[**waittelnet**](net/waittelnet):
+Wait until telnet connection to host:port show up.
 \
 [**wgetcz**](net/wgetcz):
 Set preferred language to CZ and run wget.

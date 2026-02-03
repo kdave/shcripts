@@ -3,18 +3,18 @@
 
 [ $UID = 0 ] || sudo=sudo
 
-if [ $1 = '-r' ]; then
+if [ "$1" = '-r' ]; then
 	args=-r
 	shift
 fi
 
-from=$1
+from="$1"
 shift
 
-to=$1
+to="$1"
 shift
 
-echo Snapshot $args $from to $to
-$sudo btrfs subvolume snapshot $args $from $to
-$sudo chown --reference=$from $to
-$sudo chmod --reference=$from $to
+echo "Snapshot $args $from to $to"
+$sudo btrfs subvolume snapshot $args "$from" "$to"
+$sudo chown --reference="$from" "$to"
+$sudo chmod --reference="$from" "$to"
