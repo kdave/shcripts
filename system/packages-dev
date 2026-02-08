@@ -1,0 +1,9 @@
+git
+make
+gcc
+bc
+flex
+bison
+ncurses-devel
+openssl-devel
+libelf-devel

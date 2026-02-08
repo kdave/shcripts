@@ -1,0 +1,9 @@
+#!/bin/sh
+
+file="${1:-/etc/zypp/zypp.conf}"
+key=solver.onlyRequires
+value="true"
+
+sed -i -e "s/^[#[:space:]]*$key.*/$key = $value/" "$file"
+
+grep -- "$key" "$file"

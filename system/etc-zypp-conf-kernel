@@ -1,0 +1,9 @@
+#!/bin/sh
+
+file="${1:-/etc/zypp/zypp.conf}"
+key=multiversion.kernels
+value="latest,latest-1,oldest,oldest+1,running"
+
+sed -i -e "s/^[#[:space:]]*$key.*/$key = $value/" "$file"
+
+grep -- "$key" "$file"
