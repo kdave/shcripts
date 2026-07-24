@@ -232,6 +232,9 @@ Wait until telnet connection to host:port show up.
 Set preferred language to CZ and run wget.
 
 ## ollama
+[**ollama-hold**](ollama/ollama-hold):
+Hold all ollama models for another hour
+\
 [**ollama-ls**](ollama/ollama-ls):
 List ollama models, sort by size, grep pattern
 \

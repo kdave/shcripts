@@ -1,0 +1,11 @@
+#!/bin/sh
+## Hold all ollama models for another hour
+
+to=${1:-1h}
+url="http://localhost:11434/api/generate"
+
+echo "Timeout: $to"
+for model in $(ollama ps | tee /dev/tty | tail -n +2 | awk '{ print $1 }'); do
+	echo "Model: $model"
+	curl $url -d '{"model": "'"$model"'", "keep_alive": "'"$to"'"}'
+done

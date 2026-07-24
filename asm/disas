@@ -27,6 +27,7 @@ shift $((OPTIND-1))
 # https://symbl.cc/en/unicode/blocks/box-drawing/
 # !separation matters, order matters!
 objdump "$default" "$color" "$prefix" "$insns" "$jumps" \
+	-M suffix \
 	-dr "$@" | c++filt |
 	sed -e 's/\s+[\/,]-/┌─/' |
 	sed -e 's/\s+[\/,]\([^m]*m\)-/┌\1─/' |

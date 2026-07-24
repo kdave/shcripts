@@ -7,3 +7,6 @@ bison
 ncurses-devel
 openssl-devel
 libelf-devel
+autoconf
+automake
+libtool

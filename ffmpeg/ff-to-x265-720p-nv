@@ -1,0 +1,14 @@
+#!/bin/sh -x
+
+in="$1"
+
+# no CRF
+codec=hevc_nvenc
+q=720
+
+if [ -z "$in" ]; then
+        echo "usage: $0 infile"
+        exit 1
+fi
+
+ffmpeg -hide_banner -i "$in" -c:v $codec -vf scale=-2:$q -c:a libmp3lame -q:a 2 "$in".${q}p.mp4

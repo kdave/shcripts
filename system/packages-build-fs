@@ -1,0 +1,8 @@
+xfsprogs-devel
+libuuid-devel
+libacl-devel
+libattr-devel
+libaio-devel
+liburing-devel
+libcap-devel
+gdbm-devel

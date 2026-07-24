@@ -1,4 +1,6 @@
 #!/bin/sh
 ## List ollama models, sort by size, grep pattern
 
-ollama ls | sort -k 3 -n | grep -i -E "(NAME|${1:-^})"
+ollama ls | sed -e 's/ \([GM]B\)/\1/' | sort -h -k 3 |
+	sed -e 's/\([0-9]\)\([GM]B\)/\1 \2/' |
+	grep -i -E "(NAME|${1:-^})"

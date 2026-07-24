@@ -15,7 +15,8 @@ shift
 codec=hevc_nvenc
 #codec=h264_nvenc
 #codec=av1_nvenc
-crf=28
+# No CRF for nvenc
+#crf=28
 
 if [ -z "$in" ]; then
         echo "usage: $0 infile"
@@ -23,7 +24,7 @@ if [ -z "$in" ]; then
 fi
 
 #ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 -c:s copy -c:d copy -c:t copy -map 0 "$outtmp"
-ffmpeg -hide_banner -i "$in" -c:v $codec -crf $crf -c:a libmp3lame -q:a 2 $codecmap -strict -1 -map 0 "$outtmp"
+ffmpeg -hide_banner -i "$in" -c:v $codec -c:a libmp3lame -q:a 2 $codecmap -strict -1 -map 0 "$outtmp"
 ret=$?
 if [ $ret = 0 ]; then
 	echo "Conversion ok, renaming"
