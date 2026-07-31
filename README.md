@@ -7,6 +7,10 @@ Random collection of scripts and snippets.
 [**disas**](asm/disas):
 Prettyfier of objdump assembly (AT&T, nice line graphics)
 
+## bash
+[**bash.template**](bash/bash.template):
+Script template, parse long options
+
 ## btrfs
 [**bchunks**](btrfs/bchunks):
 Shortcut to list chunks, sorted by usage
@@ -75,6 +79,10 @@ Run DOS executable in current directory, fullscreen
 [**fstests-log**](fstests/fstests-log):
 Quick scan of dmesg or given log file for fstests and warning/bug messages.
 
+## fun
+[**primebig**](fun/primebig):
+Show timestamp and its factorization (figlet fonts)
+
 ## gcc
 [**inst-gcc-links**](gcc/inst-gcc-links):
 Create symlinks for a given version of gcc and related tools.
@@ -112,6 +120,9 @@ Auto rebase topic branch on another one, look up a specific commit with marker
 \
 [**git-br**](git/git-br):
 Print current branch name.
+\
+[**git-cve**](git/git-cve):
+Resolve linux kernel commit by CVE
 \
 [**git-fixesline**](git/git-fixesline):
 Print line from given commit for the Fixes: tag.
@@ -211,6 +222,9 @@ Print input lines with a small delay (0.1s) bursts of 20, interactive.
 \
 [**tdelta**](misc/tdelta):
 Time delta between two timestamps.
+\
+[**virtme**](misc/virtme):
+Run virtme by its name
 \
 [**waitpid**](misc/waitpid):
 Wait until a given pid exits (poll).
@@ -324,11 +338,17 @@ Generate syntax highlighted .xhtml of the given file.
 [**autocutsel-2**](x/autocutsel-2):
 Duplicate selection to clipboard.
 \
+[**run-secondary**](x/run-secondary):
+Run secondary X server (openbox)
+\
 [**set-calc-key**](x/set-calc-key):
 Remap Calculator key to Backspace on Genius Luxmate 110 USB
 \
 [**xclip-clear**](x/xclip-clear):
 Clear all X clipboards
+\
+[**xclip-pwd**](x/xclip-pwd):
+Insert current directory to selection
 \
 [**xclip-what**](x/xclip-what):
 Show what's in X clipboards

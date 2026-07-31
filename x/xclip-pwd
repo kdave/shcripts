@@ -1,0 +1,4 @@
+#!/bin/sh
+## Insert current directory to selection
+
+pwd | xclip -in

@@ -1,0 +1,66 @@
+#!/bin/bash
+## Script template, parse long options
+
+if [[ -n $DEBUG ]]; then
+	set -x
+	echo "Enable debugging"
+fi
+
+HERE=$(readlink -f "$0")
+HERE=$(dirname "$HERE")
+
+VARIABLE="..."
+VERBOSE=false
+
+die() {
+	echo "ERROR: $*" >&2
+	exit 1
+}
+
+LONGOPTIONS=",verbose,param:"
+LONGOPTIONS+=",test"
+
+# Parse options
+type -p getopt >& /dev/null || die "You better have getopt on your system"
+GETOPT=$(getopt -o "vp:" -l "${LONGOPTIONS#,}" -- "$@")
+[[ $? -ne 0 ]] && exit 1
+eval set -- "$GETOPT"
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		# Models
+		-v|--verbose) VERBOSE=true;;
+		-p|--param)
+			echo "Set param to: $2";
+			VARIABLE="${2:?param needs a value}";
+			shift;;
+		# Defaults
+		--) shift; break;;
+		-*) die "unknown option $1";;
+		*) break;;
+	esac
+
+	shift
+done
+
+declare -a PARAMETERS
+declare -A SEEN
+
+# Non-options
+for ARG in "$@"; do
+	echo "Non-option: $ARG"
+
+	if [[ ${SEEN[$ARG]} ]]; then
+		die "parameter duplicated $ARG"
+	fi
+	PARAMETERS+=("$ARG")
+	SEEN[$ARG]=1
+done
+
+if [[ ${#PARAMETERS[@]} == 0 ]]; then
+	die "no non-option parameters specified"
+fi
+
+for ARG in "${PARAMETERS[@]}"; do
+	echo "Source: $ARG"
+done

@@ -1,0 +1,4 @@
+#!/bin/sh
+## Run secondary X server (openbox)
+
+DISPLAY=:0.1 /usr/bin/openbox --startup xterm

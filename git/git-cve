@@ -1,0 +1,7 @@
+#!/bin/sh -e
+## Resolve linux kernel commit by CVE
+
+# LINUX_GIT - local path, cloned  git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+# VULNS_GIT - local path, cloned git://git.kernel.org/pub/scm/linux/security/vulns.git
+
+git -C "$LINUX_GIT" show $(find "$VULNS_GIT" -name "$1.sha1" -exec cat '{}' \; )

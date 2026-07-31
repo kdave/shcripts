@@ -1,0 +1,15 @@
+#!/bin/sh
+## Show timestamp and its factorization (figlet fonts)
+
+while :; do
+	ts=$(date +%s)
+	primes=$(factor $ts)
+	primes=${primes#*: }
+	sleep 1
+	clear
+	figlet -c -d /usr/share/figlet/contributed -f doh -w $COLUMNS $ts
+	echo
+	echo
+	echo $primes |
+	figlet -c -f block -w $COLUMNS
+done
