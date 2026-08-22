@@ -153,7 +153,7 @@ Try applying a commit to stable branches (git://git.kernel.org/pub/scm/linux/ker
 
 ## log
 [**dstat**](log/dstat):
-Dstat output compatibility for dool
+Dstat output compatibility for dool (always --bytes)
 \
 [**gluelog.pl**](log/gluelog.pl):
 Glue together lines from dmesg that got wrapped due to text width.
@@ -246,11 +246,17 @@ Wait until telnet connection to host:port show up.
 Set preferred language to CZ and run wget.
 
 ## ollama
+[**ollama-clone-context**](ollama/ollama-clone-context):
+Clone model with preset context (because ollama and coding harnesses cannot be arsed to add a parameter)
+\
 [**ollama-hold**](ollama/ollama-hold):
 Hold all ollama models for another hour
 \
 [**ollama-ls**](ollama/ollama-ls):
 List ollama models, sort by size, grep pattern
+\
+[**ollama-ls-context**](ollama/ollama-ls-context):
+List models with context sizes
 \
 [**ollama-pull-all**](ollama/ollama-pull-all):
 Pull all ollama models

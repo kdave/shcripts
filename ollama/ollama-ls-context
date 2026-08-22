@@ -1,0 +1,8 @@
+#!/bin/bash
+## List models with context sizes
+
+for net in $( ollama list | tail -n +2 | awk '{print $1}'); do
+	ctx=$(ollama show "$net" | grep 'context length' | awk '{ print $3 }' | head -n 1)
+	par=$(ollama show "$net" | grep 'parameters' | awk '{ print $2 }' | head -n 1)
+	printf "%10s  %8s  %s\n" "$ctx" "$par" "$net"
+done #| sort -rn

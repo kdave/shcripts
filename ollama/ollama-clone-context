@@ -1,0 +1,71 @@
+#!/bin/bash
+## Clone model with preset context (because ollama and coding harnesses cannot be arsed to add a parameter)
+
+model="$1"
+ctx="$2"
+show=$(ollama show "$model")
+if [[ $? != 0 ]]; then
+	# Model not found
+	exit 1
+fi
+
+modelctx=$(echo "$show" | grep 'context length' | awk '{ print $3 }' | head -n 1)
+par=$(echo "$show" | grep 'parameters' | awk '{ print $2 }' | head -n 1)
+
+echo "Model:       $model"
+echo "Max context: $modelctx"
+echo "Parameters:  $par"
+
+if [[ -z "$ctx" ]]; then
+	echo "ERROR: set context size"
+	exit 1
+fi
+
+nctx=0
+case "$ctx" in
+	*k)
+		a=${ctx:0:-1}
+		nctx=$((a * 1024))
+		;;
+	[1-9]*[0-9])
+		nctx=$ctx
+		ctx="${ctx:0:-3}k"
+		;;
+	*) echo "ERROR: unrecognized context size"; exit 1;;
+esac
+
+echo "Suffix:      $ctx"
+echo "Size:        $nctx"
+
+name="${model}-${ctx}"
+
+echo "Name:        $name"
+
+if ollama show "$name" >& /dev/null; then
+	echo "ERROR: target model already exists, check manually"
+	exit 1
+fi
+
+tmp=$(mktemp)
+
+echo "FROM $model
+PARAMETER num_ctx $nctx" > "$tmp"
+
+echo ====
+cat "$tmp"
+echo ====
+
+if [[ $modelctx -lt $nctx ]]; then
+	echo 'WARNING: model context is smaller than requested'
+fi
+
+echo RUN: ollama create -f "$tmp" "$name"
+read -n 1 -p "Run the command? [y/n]"
+if [[ $REPLY = y ]]; then
+	echo "Creating ..."
+	ollama create -f "$tmp" "$name"
+else
+	echo "Nothing created"
+fi
+
+rm -f -- "$tmp"

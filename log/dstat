@@ -1,5 +1,5 @@
 #!/bin/sh
-## Dstat output compatibility for dool
+## Dstat output compatibility for dool (always --bytes)
 
 if [ -z "$1" ]; then
 	dool --bytes -cdngymr
