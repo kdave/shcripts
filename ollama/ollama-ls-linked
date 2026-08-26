@@ -1,0 +1,68 @@
+#!/bin/bash
+## Annotate models where the image file is linked to slow storage
+
+primary="/usr/share/ollama/.ollama/models"
+pblobs="$primary/blobs"
+manifestbase="$primary/manifests"
+
+die() {
+	echo "ERROR: $@"
+	exit 1
+}
+
+D() { [[ $DEBUG ]] && echo "DEBUG: $@"; }
+
+declare -a models
+FILTER=
+mapfile -t models < <(
+
+	ollama ls | sed -e 's/ \([GM]B\)/\1/' | sort -h -k 3 |
+		sed -e 's/\([0-9]\)\([GM]B\)/\1 \2/' |
+		grep -i -E "(NAME|${FILTER:-^})"
+	)
+
+for line in "${models[@]:1}"; do
+	model=${line%% *}
+	D "model: $model"
+
+	case "$model" in
+		hf.co/*) 	  manifest="$manifestbase";;
+		huggingface.co/*) manifest="$manifestbase";;
+		*)		  manifest="$manifestbase/registry.ollama.ai/library";;
+	esac
+
+	modelfile="$manifest/$model"
+	modelfile=${modelfile/:/\/}
+
+	if ! [[ -f $modelfile ]]; then
+		D die "The model file $modelfile does not exist"
+		continue
+	fi
+
+	islink=0
+	for i in {0..100}; do
+		lay=$(jq -r ".layers[$i]" < "$modelfile")
+		if [[ $lay == null ]]; then
+			D "Last layer"
+			break
+		fi
+
+		mtype=$(echo "$lay" | jq -r ".mediaType")
+		if [[ $mtype =~ application/vnd.ollama.image.model ]]; then
+			digest=$(echo "$lay" | jq -r ".digest")
+			D "digest $digest"
+			digestfile="$pblobs/${digest/:/-}"
+			D $(ls -l $digestfile)
+
+			if [[ -h $digestfile ]]; then
+				islink=1
+				break;
+			fi
+		fi
+	done
+	if [[ $islink = 1 ]]; then
+		echo "LINK $line"
+	else
+		echo "     $line"
+	fi
+done

@@ -258,6 +258,9 @@ List ollama models, sort by size, grep pattern
 [**ollama-ls-context**](ollama/ollama-ls-context):
 List models with context sizes
 \
+[**ollama-ls-linked**](ollama/ollama-ls-linked):
+Annotate models where the image file is linked to slow storage
+\
 [**ollama-pull-all**](ollama/ollama-pull-all):
 Pull all ollama models
 

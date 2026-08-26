@@ -1,11 +1,14 @@
 # Knowledge base
 
+## Git
 
 Set git credentials
 
     git config --local user.email '...'
     git config --local user.name '...'
 
+
+## System
 
 Reformat NVMe to different sector size, look for *LBA Format* at the end, use index for the *--lbaf* parameter:
 
@@ -17,3 +20,5 @@ Append partition of a given size to device, create GPT type if needed, default p
 
     sfdisk --dump /dev/sdx > sdx.backup
     echo ',+10G,' | sfdisk --label gpt --append /dev/sdx
+
+## AI

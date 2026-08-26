@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """
 Pretty print the size of a file
 """
@@ -10,10 +10,10 @@ import os
 import stat
 
 def usage():
-    print('') 
+    print('')
     print('    Usage: ' + sys.argv[0] + ' file\n')
     print('    pretty prints the size of the remote file.')
-    print('') 
+    print('')
 
 def pretty_print(num_bytes):
     if num_bytes is None:
@@ -28,7 +28,7 @@ def pretty_print(num_bytes):
     ZiB = KiB * EiB
     YiB = KiB * ZiB
     locale.setlocale(locale.LC_ALL, '')
-    output = locale.format("%d", num_bytes, grouping=True) + ' bytes'
+    output = locale.format_string("%d", num_bytes, grouping=True) + ' bytes'
     if num_bytes > YiB:
         output += ' (%.3g YiB)' % (num_bytes / YiB)
     elif num_bytes > ZiB:
@@ -54,8 +54,8 @@ if __name__ == "__main__":
         sys.exit(1)
     else:
         url = sys.argv[1]
-	if not os.path.exists(url):
-		pretty_print(int(url))
-	else:
-		bytes = os.stat(url).st_size
-		pretty_print(bytes)
+    if not os.path.exists(url):
+        pretty_print(int(url))
+    else:
+        bytes = os.stat(url).st_size
+        pretty_print(bytes)
