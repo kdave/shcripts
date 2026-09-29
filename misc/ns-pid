@@ -1,0 +1,5 @@
+#!/bin/sh
+## Run command (or shell) in namespace to hide pids
+
+me=$(id -un)
+sudo unshare --fork --pid --mount-proc --user --map-user "$me" ${1:-/bin/bash}

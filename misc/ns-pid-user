@@ -1,0 +1,9 @@
+#!/bin/sh
+## Run command (or shell) in namespace as different user and hide pids
+
+user=${1?}
+shift
+
+uid=$(id -u "$user")
+gid=$(id -g "$user")
+sudo su --pty -G users "$user" -c "unshare --wd /home/$user --fork --pid --mount-proc --user --map-user $user ${1:-/bin/bash}"

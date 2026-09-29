@@ -1,0 +1,15 @@
+#!/bin/sh
+## Watch but with sleepy
+
+if ! type -p sleepy; then
+	echo "ERROR: sleepy not found"
+	exit 1
+fi
+
+delay=2
+while :; do
+	clear
+	echo "Run: $@" "(delay $delay, $(date))"
+	"$@"
+	sleepy "$delay"
+done

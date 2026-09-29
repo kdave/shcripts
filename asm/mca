@@ -1,0 +1,3 @@
+#!/bin/sh
+## Run LLVM machine code analyzer (llvm-mca) with more stats
+llvm-mca -show-encoding -iterations 1 -all-stats -all-views "$@" | less

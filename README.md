@@ -6,6 +6,9 @@ Random collection of scripts and snippets.
 ## asm
 [**disas**](asm/disas):
 Prettyfier of objdump assembly (AT&T, nice line graphics)
+\
+[**mca**](asm/mca):
+Run LLVM machine code analyzer (llvm-mca) with more stats
 
 ## bash
 [**bash.template**](bash/bash.template):
@@ -190,6 +193,12 @@ Shortcut to grep -ir
 [**grepir**](misc/grepir):
 Shortcut to grep -ir
 \
+[**ns-pid**](misc/ns-pid):
+Run command (or shell) in namespace to hide pids
+\
+[**ns-pid-user**](misc/ns-pid-user):
+Run command (or shell) in namespace as different user and hide pids
+\
 [**nytimebig**](misc/nytimebig):
 Date, time, big letters (figlet)
 \
@@ -220,8 +229,14 @@ Print input lines with a small delay (0.1s).
 [**slowcat10**](misc/slowcat10):
 Print input lines with a small delay (0.1s) bursts of 20, interactive.
 \
+[**swaplink**](misc/swaplink):
+Swap a symlink with a regular file.
+\
 [**tdelta**](misc/tdelta):
 Time delta between two timestamps.
+\
+[**tdelta-between**](misc/tdelta-between):
+Print delta between stdin lines
 \
 [**virtme**](misc/virtme):
 Run virtme by its name
@@ -231,6 +246,9 @@ Wait until a given pid exits (poll).
 \
 [**watch-hdd**](misc/watch-hdd):
 Watch HDD temperatures
+\
+[**watchy**](misc/watchy):
+Watch but with sleepy
 
 ## net
 [**waitping**](net/waitping):
@@ -272,6 +290,9 @@ Accept given SR
 [**kernpurge**](packaging/kernpurge):
 Print kdialog with list of installed kernel packages and allow selection to
 remove them, current kernel is not in the list
+\
+[**rpm-vstrip**](packaging/rpm-vstrip):
+Strip version from RPM package name (stdin)
 \
 [**update-python**](packaging/update-python):
 Convenient way to update python packages that exist on lower version,

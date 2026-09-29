@@ -13,7 +13,7 @@ die() {
 D() { [[ $DEBUG ]] && echo "DEBUG: $@"; }
 
 declare -a models
-FILTER=
+FILTER="$1"
 mapfile -t models < <(
 
 	ollama ls | sed -e 's/ \([GM]B\)/\1/' | sort -h -k 3 |

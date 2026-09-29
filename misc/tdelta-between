@@ -1,0 +1,9 @@
+#!/usr/bin/perl
+## Print delta between stdin lines
+$|++;
+my $last=time;
+while(<>) {
+	my $now=time;
+	printf("%ds: $_",$now-$last);
+	$last=$now;
+}

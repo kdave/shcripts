@@ -1,0 +1,16 @@
+#!/bin/sh
+## Swap a symlink with a regular file.
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 file"
+	exit 1
+fi
+
+full=$(readlink -f "$1")
+cp "$full" "$1".new
+if exch "$1".new "$1"; then
+	echo "OK Exchanged $1"
+	rm "$1".new
+else
+	echo "ERROR exchaning, check $1 and ${1}.new"
+fi
